@@ -53,9 +53,11 @@ begin
     {$ifOPT D+}Assert(Assigned(movable),'movable is NIL');{$endIf}
     {$ifOPT D+}Assert(Assigned(TopForm),'TopForm is NIL');{$endIf}
     {$ifOPT D+}Assert(Screen.FocusedForm=TopForm,'TopForm is NOT realy form in TOP layer');{$endIf}
-    if not (Screen.CustomFormZIndex(movable)in[0,1]) then begin
+    //if true {not (Screen.CustomFormZIndex(movable)in[0,1])} then begin
+        {todo: а вот чет НЕ всегда этот массив в АКТУАЛЬНОМ состоянии. РАЗОБРАТЬСЯ}
+        {todo: фиговато ловятся перемещения посредством WINAPI, потому и не актуально :-( }
        _bringToSecondPlane_(movable,TopForm);
-    end;
+    //end;
 end;
 
 // переместить форму на "Второй План"
