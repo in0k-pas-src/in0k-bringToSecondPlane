@@ -26,7 +26,7 @@ procedure in0k_bringToSecondPlane(const movable:TCustomForm);
 
 implementation
 
-function _bringToSecondPlane_(const wndNXT,wndTOP:TCustomForm):boolean; {$ifOPT D-}inline{$endIf}
+function _bringToSecondPlane_(const wndNXT,wndTOP:TCustomForm):boolean; {$ifOPT D-}inline;{$endIf}
 var dwp:HDWP;
 begin // используем реальный WIN API инструментарий
     dwp:=BeginDeferWindowPos(1);
