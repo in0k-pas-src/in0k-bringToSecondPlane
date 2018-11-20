@@ -30,7 +30,7 @@ function _bringToSecondPlane_(const wndNXT,wndTOP:TCustomForm):boolean; {$ifOPT 
 var dwp:HDWP;
 begin // используем реальный WIN API инструментарий
     dwp:=BeginDeferWindowPos(1);
-    DeferWindowPos(dwp,wndNXT.Handle,wndTOP.Handle,0,0,0,0,SWP_NOMOVE or SWP_NOSIZE or SWP_NOACTIVATE);
+    DeferWindowPos(dwp,wndNXT.Handle,wndTOP.Handle,0,0,0,0,SWP_NOMOVE or SWP_NOSIZE or SWP_NOACTIVATE or SWP_SHOWWINDOW);
     result:=EndDeferWindowPos(dwp);
 end;
 
