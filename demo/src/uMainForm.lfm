@@ -1,0 +1,184 @@
+object MainForm: TMainForm
+  Left = 384
+  Height = 186
+  Top = 273
+  Width = 273
+  Caption = 'MainForm'
+  ClientHeight = 186
+  ClientWidth = 273
+  OnActivate = FormActivate
+  OnCreate = FormCreate
+  LCLVersion = '1.6.4.0'
+  object Button1: TButton
+    AnchorSideLeft.Control = Label2
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 194
+    Height = 25
+    Top = 2
+    Width = 75
+    BorderSpacing.Left = 4
+    BorderSpacing.Top = 2
+    Caption = 'to Second'
+    OnClick = Button1Click
+    TabOrder = 0
+  end
+  object Button2: TButton
+    AnchorSideLeft.Control = Label5
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Shape1
+    AnchorSideTop.Side = asrBottom
+    Left = 194
+    Height = 25
+    Top = 42
+    Width = 75
+    BorderSpacing.Left = 4
+    BorderSpacing.Top = 2
+    Caption = 'to Second'
+    OnClick = Button2Click
+    TabOrder = 1
+  end
+  object Button3: TButton
+    AnchorSideLeft.Control = Button1
+    AnchorSideTop.Control = Shape2
+    AnchorSideRight.Control = Button1
+    AnchorSideRight.Side = asrBottom
+    Left = 194
+    Height = 25
+    Top = 85
+    Width = 75
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 4
+    Caption = 'info'
+    OnClick = Button3Click
+    TabOrder = 2
+  end
+  object Memo1: TMemo
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Shape2
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Button3
+    Left = 4
+    Height = 92
+    Top = 86
+    Width = 186
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 4
+    BorderSpacing.Top = 4
+    BorderSpacing.Right = 4
+    Lines.Strings = (
+      'Memo1'
+    )
+    TabOrder = 3
+  end
+  object Label1: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Button1
+    AnchorSideTop.Side = asrCenter
+    Left = 4
+    Height = 15
+    Top = 7
+    Width = 36
+    BorderSpacing.Left = 4
+    Caption = 'Form1'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label2: TLabel
+    AnchorSideLeft.Control = Label1
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Label1
+    AnchorSideTop.Side = asrCenter
+    Left = 44
+    Height = 15
+    Top = 7
+    Width = 146
+    BorderSpacing.Left = 4
+    Caption = 'move form to second plane'
+    ParentColor = False
+  end
+  object Label3: TLabel
+    AnchorSideLeft.Control = Label2
+    AnchorSideTop.Control = Label2
+    AnchorSideTop.Side = asrBottom
+    Left = 44
+    Height = 15
+    Top = 22
+    Width = 142
+    Caption = 'use bringToFront (BLINK!?)'
+    Font.Color = clGrayText
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label4: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Button2
+    AnchorSideTop.Side = asrCenter
+    Left = 4
+    Height = 15
+    Top = 47
+    Width = 36
+    BorderSpacing.Left = 4
+    Caption = 'Form2'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label5: TLabel
+    AnchorSideLeft.Control = Label4
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Label4
+    AnchorSideTop.Side = asrCenter
+    Left = 44
+    Height = 15
+    Top = 47
+    Width = 146
+    BorderSpacing.Left = 4
+    Caption = 'move form to second plane'
+    ParentColor = False
+  end
+  object Label6: TLabel
+    AnchorSideLeft.Control = Label5
+    AnchorSideTop.Control = Label5
+    AnchorSideTop.Side = asrBottom
+    Left = 44
+    Height = 15
+    Top = 62
+    Width = 136
+    Caption = 'try use native system calls'
+    Font.Color = clGrayText
+    ParentColor = False
+    ParentFont = False
+  end
+  object Shape1: TShape
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Label3
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Button1
+    AnchorSideRight.Side = asrBottom
+    Left = 2
+    Height = 1
+    Top = 39
+    Width = 267
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 2
+    BorderSpacing.Top = 2
+    Pen.Color = clBtnShadow
+  end
+  object Shape2: TShape
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Label6
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Button1
+    AnchorSideRight.Side = asrBottom
+    Left = 2
+    Height = 1
+    Top = 81
+    Width = 267
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 2
+    BorderSpacing.Top = 4
+    Pen.Color = clBtnShadow
+  end
+end

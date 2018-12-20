@@ -1,0 +1,10 @@
+object Form2: TForm2
+  Left = 403
+  Height = 240
+  Top = 236
+  Width = 320
+  Caption = 'Form2'
+  OnCreate = FormCreate
+  LCLVersion = '1.6.4.0'
+  Visible = True
+end
