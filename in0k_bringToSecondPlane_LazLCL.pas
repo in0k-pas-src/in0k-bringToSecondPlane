@@ -1,6 +1,6 @@
 unit in0k_bringToSecondPlane_LazLCL;
 
-//--- Схема работы функции на примере ------------------------ [ in0k (c) 2016 ]
+//--- Схема работы функции на примере -------------------------[ in0k (c) 2016 ]
 //
 //     Z-Index
 //
@@ -10,66 +10,46 @@ unit in0k_bringToSecondPlane_LazLCL;
 //     3     ...               |    ...                     |   Wnd01
 //    ...    ...               |    ...                     |
 //     N    Wnd_A.bringToFront-^    ...                     |
-//	   M     ...                   Wnd_B.bringToSecondPlane-^
+//     M     ...                   Wnd_B.bringToSecondPlane-^
 //    ...    ...                    ...
 //    ...............................................................
 //    DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop
 //
 //----------------------------------------------------------------------------//
+// Наивно и кросПлатформенно, но недостатки ... моргает :-(
+//----------------------------------------------------------------------------//
 
 interface
 
-uses Forms;
+uses
+  in0k_WwSZO,
+  Forms;
 
-procedure in0k_bringToSecondPlane(const movable,TopForm:TCustomForm);
-procedure in0k_bringToSecondPlane(const movable:TCustomForm);
+procedure bringToSecondPlane(const form:TCustomForm); {$ifOPT D-}inline;{$endIf}
 
 implementation
 
-(* какой-то касяк с окнами БЕЗ границы
 // переместить форму на "Второй План"
-// @prm movable перемещаемая форма
-// @prm TopForm форма, которая в настоящий момент находится на переднем плане
-// @prm newBounds новые координаты окна
-procedure in0k_bringToSecondPlane(const movable,TopForm:TCustomForm; const newBounds:TRect);
-begin
-    {$ifOPT D+}Assert(Assigned(movable),'movable is NIL');{$endIf}
-    {$ifOPT D+}Assert(Assigned(TopForm),'TopForm is NIL');{$endIf}
-    {$ifOPT D+}Assert(Screen.FocusedForm=TopForm,'TopForm is NOT realy form in TOP layer');{$endIf}
-    movable.BoundsRect:=newBounds;
-    in0k_bringToSecondPlane(movable,TopForm);
-end;*)
-
-// переместить форму на "Второй План"
-// @prm movable перемещаемая форма
-// @prm TopForm форма, которая в настоящий момент находится на переднем плане
-procedure in0k_bringToSecondPlane(const movable,TopForm:TCustomForm);
-begin
-    {$ifOPT D+}Assert(Assigned(movable),'movable is NIL');{$endIf}
-    {$ifOPT D+}Assert(Assigned(TopForm),'TopForm is NIL');{$endIf}
-    {$ifOPT D+}Assert(Screen.FocusedForm=TopForm,'TopForm is NOT realy form in TOP layer');{$endIf}
-    if not (Screen.CustomFormZIndex(movable)in[0,1]) then begin
-        movable.BringToFront;
-        TopForm.BringToFront;
-    end;
+// @prm fTop форма, которая в настоящий момент находится на переднем плане
+// @prm form перемещаемая форма
+procedure in0k_bringToSecondPlane(const fTop,form:TCustomForm); {$ifOPT D-}inline;{$endIf}
+begin {$ifOPT D+}
+      Assert(Assigned(form),'`form`: must be defined');
+      Assert(Assigned(fTop),'`fTop`: must be defined');
+      Assert(WwSZO_form_is_TOP_inZOrder(fTop),'`fTop`: must be TOP form in the app');
+      {$endIf}
+    form.BringToFront;
+    fTop.BringToFront;
 end;
 
-(* какой-то касяк с окнами БЕЗ границы
-// переместить форму на "Второй План"
-// @prm movable перемещаемая форма
-// @prm newBounds новые координаты окна
-procedure in0k_bringToSecondPlane(const movable:TCustomForm; const newBounds:TRect);
-begin
-    {$ifOPT D+}Assert(Assigned(movable),'movable is NIL');{$endIf}
-    in0k_bringToSecondPlane(movable,Screen.FocusedForm,newBounds);
-end;*)
-
-// переместить форму на "Второй План"
-// @prm movable перемещаемая форма
-procedure in0k_bringToSecondPlane(const movable:TCustomForm);
-begin
-    {$ifOPT D+}Assert(Assigned(movable),'movable is NIL');{$endIf}
-    in0k_bringToSecondPlane(movable,Screen.FocusedForm);
+// Переместить форму на "Второй План"
+procedure bringToSecondPlane(const form:TCustomForm);
+begin {$ifOPT D+}
+      Assert(Assigned(form),'`form`: must be defined');
+      {$endIf}
+    if WwSZO_2SecondPlane_possible(form) then begin
+        in0k_bringToSecondPlane(WwSZO_get_topForm_inZOrder,form)
+    end;
 end;
 
 end.

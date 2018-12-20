@@ -1,1 +1,6 @@
-*.bak
+*.exe
+*.ico
+*.res
+*.lps
+backup*/
+lib*/

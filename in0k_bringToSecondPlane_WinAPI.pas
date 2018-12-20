@@ -10,87 +10,72 @@ unit in0k_bringToSecondPlane_WinAPI;
 //     3     ...               |    ...                     |   Wnd01
 //    ...    ...               |    ...                     |
 //     N    Wnd_A.bringToFront-^    ...                     |
-//	   M     ...                   Wnd_B.bringToSecondPlane-^
+//     M     ...                   Wnd_B.bringToSecondPlane-^
 //    ...    ...                    ...
 //    ...............................................................
 //    DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop
 //
 //----------------------------------------------------------------------------//
+// "НАТИвНаЯ" реализация, НЕ моргает.
+//----------------------------------------------------------------------------//
+   {%region --- проверка совместимости ------------------------- /fold}
+    {$IF not(DEFINED(LCLWin32) or DEFINED(LCLWin64))}
+    {$ERROR 'WRONG `WidgetSet`! Unit must be used only with `LCLWin32` or `LCLWin64`!'}
+    {$endIF}
+   {%endregion}
+//----------------------------------------------------------------------------//
 
 interface
 
-uses Forms,windows;
+uses
+  in0k_WwSZO,
+  Forms,
+  windows;
 
-procedure in0k_bringToSecondPlane(const movable,TopForm:TCustomForm);
-procedure in0k_bringToSecondPlane(const movable:TCustomForm);
+procedure bringToSecondPlane(const form:TCustomForm); {$ifOPT D-}inline;{$endIf}
 
 implementation
 
-function _bringToSecondPlane_(const wndNXT,wndTOP:TCustomForm):boolean; {$ifOPT D-}inline;{$endIf}
+// расположить `Формы` в порядке `zIndex` (.. source -> wndNXT .. DeskTop).
+// @res true все удалось :-)
+function _set_zIndex_in_Order_(const source,wndNXT:TCustomForm):boolean; {$ifOPT D-}inline;{$endIf}
 var dwp:HDWP;
-begin // используем реальный WIN API инструментарий
+begin {$ifOPT D+}
+      Assert(Assigned(source),'`source`: must be defined');
+      Assert(Assigned(wndNXT),'`wndNXT`: must be defined');
+      {$endIf}
+    // используем реальный WIN API инструментарий
     dwp:=BeginDeferWindowPos(1);
-    DeferWindowPos(dwp,wndNXT.Handle,wndTOP.Handle,0,0,0,0,SWP_NOMOVE or SWP_NOSIZE or SWP_NOACTIVATE or SWP_SHOWWINDOW);
+    DeferWindowPos(dwp,wndNXT.Handle,source.Handle,0,0,0,0,SWP_NOMOVE or SWP_NOSIZE or SWP_NOACTIVATE or SWP_SHOWWINDOW);
     result:=EndDeferWindowPos(dwp);
 end;
 
-(* какой-то касяк с окнами БЕЗ границы
-function _bringToSecondPlane_(const wndNXT,wndTOP:TCustomForm; const newBounds:TRect):boolean; {$ifOPT D-}inline{$endIf}
-var dwp:HDWP;
-begin // используем реальный WIN API инструментарий
-    dwp:=BeginDeferWindowPos(1);
-    DeferWindowPos(dwp,wndNXT.Handle,wndTOP.Handle,
-                   newBounds.Left, newBounds.Top, Max(newBounds.Right-newBounds.Left,0), Max(newBounds.Bottom-newBounds.Top,0),
-                   SWP_NOACTIVATE);
-    result:=EndDeferWindowPos(dwp);
-end;*)
-
-//------------------------------------------------------------------------------
-
-(* какой-то касяк с окнами БЕЗ границы
 // переместить форму на "Второй План"
-// @prm movable перемещаемая форма
-// @prm TopForm форма, которая в настоящий момент находится на переднем плане
-// @prm newBounds новые координаты окна
-procedure in0k_bringToSecondPlane(const movable,TopForm:TCustomForm; const newBounds:TRect);
-begin
-    {$ifOPT D+}Assert(Assigned(movable),'movable is NIL');{$endIf}
-    {$ifOPT D+}Assert(Assigned(TopForm),'TopForm is NIL');{$endIf}
-    {$ifOPT D+}Assert(Screen.FocusedForm=TopForm,'TopForm is NOT realy form in TOP layer');{$endIf}
-   _bringToSecondPlane_(movable,TopForm,newBounds);
-end;*)
-
-// переместить форму на "Второй План"
-// @prm movable перемещаемая форма
-// @prm TopForm форма, которая в настоящий момент находится на переднем плане
-procedure in0k_bringToSecondPlane(const movable,TopForm:TCustomForm);
-begin
-    {$ifOPT D+}Assert(Assigned(movable),'movable is NIL');{$endIf}
-    {$ifOPT D+}Assert(Assigned(TopForm),'TopForm is NIL');{$endIf}
-    {$ifOPT D+}Assert(Screen.FocusedForm=TopForm,'TopForm is NOT realy form in TOP layer');{$endIf}
-    //if true {not (Screen.CustomFormZIndex(movable)in[0,1])} then begin
-        {todo: а вот чет НЕ всегда этот массив в АКТУАЛЬНОМ состоянии. РАЗОБРАТЬСЯ}
-        {todo: фиговато ловятся перемещения посредством WINAPI, потому и не актуально :-( }
-       _bringToSecondPlane_(movable,TopForm);
-    //end;
+// @prm fTop форма, которая в настоящий момент находится на переднем плане
+// @prm form перемещаемая форма
+procedure in0k_bringToSecondPlane(const fTop,form:TCustomForm); {$ifOPT D-}inline;{$endIf}
+var list:tListFT2F;
+begin {$ifOPT D+}
+      Assert(Assigned(form),'`form`: must be defined');
+      Assert(Assigned(fTop),'`fTop`: must be defined');
+      Assert(WwSZO_form_is_TOP_inZOrder(fTop),'`fTop`: must be TOP form in the app');
+      {$endIf}
+      // Особенности см. `in0k_WwSZO.Параграф#2`
+    list:=WwSZO_listFT2F_make(form);
+    if _set_zIndex_in_Order_(fTop,form) then begin
+        WwSZO_listFT2F_zFIX (fTop,form,list);
+    end
+    {$ifOPT D+}
+    else Assert(false,'`form`: unable to move');
+    {$endIf};
+    WwSZO_listFT2F_free(list);
 end;
 
-(* какой-то касяк с окнами БЕЗ границы
-// переместить форму на "Второй План"
-// @prm movable перемещаемая форма
-// @prm newBounds новые координаты окна
-procedure in0k_bringToSecondPlane(const movable:TCustomForm; const newBounds:TRect);
-begin
-    {$ifOPT D+}Assert(Assigned(movable),'movable is NIL');{$endIf}
-    in0k_bringToSecondPlane(movable,Screen.FocusedForm,newBounds);
-end;*)
-
-// переместить форму на "Второй План"
-// @prm movable перемещаемая форма
-procedure in0k_bringToSecondPlane(const movable:TCustomForm);
-begin
-    {$ifOPT D+}Assert(Assigned(movable),'movable is NIL');{$endIf}
-    in0k_bringToSecondPlane(movable,Screen.FocusedForm);
+// Переместить форму на "Второй План"
+procedure bringToSecondPlane(const form:TCustomForm);
+begin {$ifOPT D+} Assert(Assigned(form),'`form`: must be defined'); {$endIf}
+    if WwSZO_2SecondPlane_possible(form)
+    then in0k_bringToSecondPlane(WwSZO_get_topForm_inZOrder,form);
 end;
 
 end.
