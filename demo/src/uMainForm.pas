@@ -59,7 +59,7 @@ end;
 
 procedure TMainForm.Button2Click(Sender: TObject);
 begin
-    in0k_bringToSecondPlane.bringToSecond(Form2);
+    bringToSecond(Form2);
     info_Write;
 end;
 
