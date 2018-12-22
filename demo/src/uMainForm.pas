@@ -23,15 +23,7 @@ type
     Button1: TButton;
     Button2: TButton;
     Button3: TButton;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
     Memo1: TMemo;
-    Shape1: TShape;
-    Shape2: TShape;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);

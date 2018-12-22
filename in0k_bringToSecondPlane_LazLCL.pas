@@ -22,7 +22,7 @@ unit in0k_bringToSecondPlane_LazLCL;
 interface
 
 uses
-  in0k_WwSZO,
+  in0k_SzOW,
   Forms;
 
 procedure bringToSecondPlane(const form:TCustomForm); {$ifOPT D-}inline;{$endIf}
@@ -36,7 +36,7 @@ procedure in0k_bringToSecondPlane(const fTop,form:TCustomForm); {$ifOPT D-}inlin
 begin {$ifOPT D+}
       Assert(Assigned(form),'`form`: must be defined');
       Assert(Assigned(fTop),'`fTop`: must be defined');
-      Assert(WwSZO_form_is_TOP_inZOrder(fTop),'`fTop`: must be TOP form in the app');
+      Assert(SzOW_form_is_TOP_inZOrder(fTop),'`fTop`: must be TOP form in the app');
       {$endIf}
     form.BringToFront;
     fTop.BringToFront;
@@ -47,8 +47,8 @@ procedure bringToSecondPlane(const form:TCustomForm);
 begin {$ifOPT D+}
       Assert(Assigned(form),'`form`: must be defined');
       {$endIf}
-    if WwSZO_2SecondPlane_possible(form) then begin
-        in0k_bringToSecondPlane(WwSZO_get_topForm_inZOrder,form)
+    if SzOW_SecondPlane_possible(form) then begin
+        in0k_bringToSecondPlane(SzOW_get_topForm_inZOrder,form)
     end;
 end;
 

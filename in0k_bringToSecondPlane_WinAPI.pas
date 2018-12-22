@@ -23,12 +23,14 @@ unit in0k_bringToSecondPlane_WinAPI;
     {$ERROR 'WRONG `WidgetSet`! Unit must be used only with `LCLWin32` or `LCLWin64`!'}
     {$endIF}
    {%endregion}
+   {%in0k(c)Tested [20181222 Lazarus:1.6.4 FPC:3.0.2 i386-win32-win32/win64]}
 //----------------------------------------------------------------------------//
 
 interface
 
 uses
-  in0k_WwSZO,
+  in0k_SzOW,
+  in0k_SzOF,
   Forms,
   windows;
 
@@ -58,24 +60,24 @@ var list:tListFT2F;
 begin {$ifOPT D+}
       Assert(Assigned(form),'`form`: must be defined');
       Assert(Assigned(fTop),'`fTop`: must be defined');
-      Assert(WwSZO_form_is_TOP_inZOrder(fTop),'`fTop`: must be TOP form in the app');
+      Assert(SzOW_form_is_TOP_inZOrder(fTop),'`fTop`: must be TOP form in the app');
       {$endIf}
-      // Особенности см. `in0k_WwSZO.Параграф#2`
-    list:=WwSZO_listFT2F_make(form);
+    // Особенности см. `in0k_SzOF.#1`
+    list:=SzOF_listFT2F_make(form);
     if _set_zIndex_in_Order_(fTop,form) then begin
-        WwSZO_listFT2F_zFIX (fTop,form,list);
+        SzOF_listFT2F_zFIX (fTop,form,list);
     end
     {$ifOPT D+}
     else Assert(false,'`form`: unable to move');
     {$endIf};
-    WwSZO_listFT2F_free(list);
+    SzOF_listFT2F_free(list);
 end;
 
 // Переместить форму на "Второй План"
 procedure bringToSecondPlane(const form:TCustomForm);
 begin {$ifOPT D+} Assert(Assigned(form),'`form`: must be defined'); {$endIf}
-    if WwSZO_2SecondPlane_possible(form)
-    then in0k_bringToSecondPlane(WwSZO_get_topForm_inZOrder,form);
+    if SzOW_SecondPlane_possible(form)
+    then in0k_bringToSecondPlane(SzOW_get_topForm_inZOrder,form);
 end;
 
 end.

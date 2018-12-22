@@ -27,6 +27,8 @@ uses
     in0k_bringToSecondPlane_WinAPI,
   {$elseIf DEFINED(LCLgtk2)}
     in0k_bringToSecondPlane_lclGtk2,
+  {$elseIf DEFINED(LCLgtk3)}
+    in0k_bringToSecondPlane_lclGtk3,
   {$else}
     in0k_bringToSecondPlane_LazLCL,
   {$endIF}

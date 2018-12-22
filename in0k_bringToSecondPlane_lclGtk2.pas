@@ -23,14 +23,16 @@ unit in0k_bringToSecondPlane_lclGtk2;
     {$ErrOr 'WRONG `WidgetSet`! Unit must be used only with `LCLgtk2`!'}
     {$endIF}
    {%endregion}
+   {%in0k(c)Tested [20181222 Lazarus:1.6.4 FPC:3.0.2 i386-linux-gtk2]}
 //----------------------------------------------------------------------------//
 
 interface
 
 uses
-  in0k_WwSZO,
+  in0k_SzOW,
+  in0k_SzOF,
   Forms,
-  gdk2, glib2, Gtk2Proc;
+  gtk2, gdk2, glib2, Gtk2Proc;
 
 procedure bringToSecondPlane(const form:TCustomForm); {$ifOPT D-}inline;{$endIf}
 
@@ -48,9 +50,9 @@ begin {$ifOPT D+}
       Assert(Assigned(wndNXT),'`wndNXT`: must be defined');
       {$endIf}
     // получаем `Gtk` указатели
-    pSource:=GetControlWindow(pointer{PGtkWidget}(source.Handle));
+    pSource:=GetControlWindow({%H-}PGtkWidget(source.Handle));
     if pSource=nil then Exit;
-    pWndNXT:=GetControlWindow(pointer{PGtkWidget}(wndNXT.Handle));
+    pWndNXT:=GetControlWindow({%H-}PGtkWidget(wndNXT.Handle));
     if pWndNXT=nil then Exit;
     // перемещаем
     gdk_window_restack(pWndNXT,pSource,false);
@@ -64,20 +66,20 @@ var list:tListFT2F;
 begin {$ifOPT D+}
       Assert(Assigned(form),'`form`: must be defined');
       Assert(Assigned(fTop),'`fTop`: must be defined');
-      Assert(WwSZO_form_is_TOP_inZOrder(fTop),'`fTop`: must be TOP form in the app');
+      Assert(SzOW_form_is_TOP_inZOrder(fTop),'`fTop`: must be TOP form in the app');
       {$endIf}
-      // Особенности см. `in0k_WwSZO.Параграф#2`
-    list:=WwSZO_listFT2F_make(form);
+    // Особенности см. `in0k_SzOF.#1`
+    list:=SzOF_listFT2F_make (form);
    _set_zIndex_in_Order_(fTop,form);
-    WwSZO_listFT2F_zFIX (fTop,form,list);
-    WwSZO_listFT2F_free (list);
+    SzOF_listFT2F_zFIX  (fTop,form,list);
+    SzOF_listFT2F_free  (list);
 end;
 
 // Переместить форму на "Второй План"
 procedure bringToSecondPlane(const form:TCustomForm);
 begin {$ifOPT D+} Assert(Assigned(form),'`form`: must be defined'); {$endIf}
-    if WwSZO_2SecondPlane_possible(form)
-    then in0k_bringToSecondPlane(WwSZO_get_topForm_inZOrder,form);
+    if SzOW_SecondPlane_possible(form)
+    then in0k_bringToSecondPlane(SzOW_get_topForm_inZOrder,form);
 end;
 
 end.
