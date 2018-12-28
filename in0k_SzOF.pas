@@ -15,7 +15,7 @@ unit in0k_SzOF;
 //    - Список `Screen.FCustomFormsZOrdered`, как и `Screen.FCustomForms`,
 //      переодически перестраивается (например при перемещении фокуса на другое
 //      окно). Однако, где это происходит и как это НЕЗАМЕТНО спровоцировать
-//      я не нашёл. Т.е. судьба ... опять через "зад" :-(
+//      я не нашёл. Т.е. судьба ... чинить через "зад" :-(
 //    - Список `Screen.FCustomFormsZOrdered` -- ПРИВАТНЫЙ, прямого доступа к
 //      нему НЕТ. Но есть метод `Screen.MoveFormToZFront`, который работает
 //      со списком, правда делает он НЕ то и НЕ так (переносит указанную форму
@@ -37,9 +37,8 @@ unit in0k_SzOF;
 
 interface
 
-uses
-  Forms,
-  in0k_SzOW;
+uses {$ifOPT D+}in0k_SzOW,{$endIf}
+  Forms;
 
 type tListFT2F=array of TCustomForm;
 
@@ -51,10 +50,43 @@ implementation
 uses LCLVersion;
 
 {%region --- проверки версий LCL для подтверждения функционала --- /fold }
-{$undef FSzOL_implementation_verified}
+{$undef FSzOL_implementation_verified} //< типа НЕ проверено
 
-{$if (lcl_major=1)and(lcl_minor=6)and(lcl_release=4)and(lcl_patch=0)}
-{$define FSzOL_implementation_verified}
+//1.4.x
+{$if (lcl_major=1)and(lcl_minor=4)}
+    {$if (lcl_release=4)and(lcl_patch=0)}
+        {$define FSzOL_implementation_verified}
+    {$endIf}
+{$endIf}
+
+//1.6.x
+{$if (lcl_major=1)and(lcl_minor=6)}
+    {$if (lcl_release=0)and(lcl_patch=4)}
+        {$define FSzOL_implementation_verified}
+    {$endIf}
+    {$if (lcl_release=4)and(lcl_patch=0)}
+        {$define FSzOL_implementation_verified}
+    {$endIf}
+{$endIf}
+
+// 1.8.x
+{$if (lcl_major=1)and(lcl_minor=8)}
+    {$if (lcl_release=0)or(lcl_patch=6)}
+        {$define FSzOL_implementation_verified}
+    {$endIf}
+    {$if (lcl_release=2)or(lcl_patch=0)}
+        {$define FSzOL_implementation_verified}
+    {$endIf}
+    {$if (lcl_release=4)or(lcl_patch=0)}
+        {$define FSzOL_implementation_verified}
+    {$endIf}
+{$endIf}
+
+// 2.0.0.x
+{$if (lcl_major=2)and(lcl_minor=0)and(lcl_release=0)}
+    {$if (lcl_patch=1)or(lcl_patch=2)or(lcl_patch=3)}
+      {$define FSzOL_implementation_verified}
+    {$endIf}
 {$endIf}
 
 {$ifNdef FSzOL_implementation_verified} // сообщим что в этой версии я Не тестил
