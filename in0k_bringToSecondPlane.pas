@@ -10,7 +10,7 @@ unit in0k_bringToSecondPlane;
 //     3     ...               |    ...                     |   Wnd01
 //    ...    ...               |    ...                     |
 //     N    Wnd_A.bringToFront-^    ...                     |
-//     M     ...                   Wnd_B.bringToSecond------^
+//     M     ...                   bringToSecond(Wnd_B)-----^
 //    ...    ...                    ...
 //    ...............................................................
 //    DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop
@@ -30,6 +30,10 @@ uses
   {$elseIf DEFINED(LCLgtk3)}
     in0k_bringToSecondPlane_lclGtk3,
   {$else}
+    {$note --------------------------------------------------------------------}
+    {$note  in0k-bringToSecondPlane: The basic cross-platform version is used. }
+    {$note  Can work slowly and with flicker.                                  }
+    {$note --------------------------------------------------------------------}
     in0k_bringToSecondPlane_LazLCL,
   {$endIF}
   {%endRegion}

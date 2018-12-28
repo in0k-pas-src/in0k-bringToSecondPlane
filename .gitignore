@@ -4,3 +4,4 @@
 *.lps
 backup*/
 lib*/
+*.dbg

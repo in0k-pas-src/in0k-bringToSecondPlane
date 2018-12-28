@@ -10,7 +10,7 @@ unit in0k_bringToSecondPlane_LazLCL;
 //     3     ...               |    ...                     |   Wnd01
 //    ...    ...               |    ...                     |
 //     N    Wnd_A.bringToFront-^    ...                     |
-//     M     ...                   Wnd_B.bringToSecondPlane-^
+//     M     ...                   bringToSecond(Wnd_B)-----^
 //    ...    ...                    ...
 //    ...............................................................
 //    DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop
