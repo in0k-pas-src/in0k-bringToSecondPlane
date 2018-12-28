@@ -1,14 +1,14 @@
 object MainForm: TMainForm
-  Left = 610
+  Left = 448
   Height = 186
-  Top = 189
+  Top = 241
   Width = 313
   Caption = 'MainForm'
   ClientHeight = 186
   ClientWidth = 313
   OnActivate = FormActivate
   OnCreate = FormCreate
-  LCLVersion = '1.6.4.0'
+  LCLVersion = '2.0.0.3'
   object Button1: TButton
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
