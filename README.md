@@ -1,44 +1,68 @@
 # in0k-bringToSecondPlane
 
-Move the window (`tForm`) to the SECOND position in the `Z-Order' list of application windows.
+[Units][1] for use in [Lazarus][2] [LCL][3].
 
-#### Scheme of work
+##
+
+Move the window (`tForm`) to the SECOND position in the Z-Order list of 
+application windows. 
+
 
      Z-Index                                                       
                                                                    
-    TOP   Wnd00              +-> Wnd_A                        Wnd_A
+    T0P   Wnd00              +-> Wnd_A                        Wnd_A
      1    Wnd01              |   Wnd00                  +---> Wnd_B
      2     ...               |   Wnd01                  |     Wnd00
      3     ...               |    ...                   |     Wnd01
     ...    ...               |    ...                   |          
      N    Wnd_A.bringToFront-^    ...                   |          
-     M     ...                   Wnd_B.bringToSecond----^          
+     M     ...                   bringToSecond(Wnd_B)---^          
     ...    ...                    ...                              
     ...............................................................
     DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop
 
 
-#### Composition
-* `in0k_bringToSecondPlane_LazLCL.pas` cross-platform version.
-   * The functionality of the `bring to Second` procedure is achieved by a sequential call `Wnd_B.bringToFront; Wnd_A.bringToFront`.
-   * `+` Should work on ALL platforms. 
-   * `-` Periodically noticeable characteristic flickering of the interface. 
-* `in0k_bringToSecondPlane_WinAPI.pas` widgetSet `LCLWin32`, `LCLWin64`. 
-   * `+`no flicker.
-* `in0k_bringToSecondPlane_lclGtk2.pas` widgetSet `LCLgtk2`.
-   * `+` no flicker.
-* `in0k_bringToSecondPlane.pas` **general** version. If possible use
-   **native** implementation for the target platform. If there is no implementation, 
-   it is a cross-platform option.
+## Usage
 
-#### Setup
-Special installation **NO** required.
+* Ready example in the project `demo/uiDemoTEST.lpi`
 
-* Copy the contents of the repository to your local folder `%SomeDIR%`.
-* Specify `%SomeDIR%` in the project search paths.
-* In the `uses` section, add `in0k_bringToSecondPlane` or one of the implementations.
+* Example of usage in code
+
+     ```pascal    
+        uses ...
+             in0k_bringToSecondPlane,
+             ...;
+        
+        ..
+        bringToSecond(myForm);
+        ..
+     ```    
+        
+
+## Installation
+1. Copy or clone the contents of the repository to your folder `%SomeDIR%`.
+2. In the project settings, specify the folder `%SomeDIR%` 
+   in [other unit files][s1].
 
 
-#### UI test as an example of use
+## Structure
+* `in0k_bringToSecondPlane.pas` **generalized** version. 
+   If possible, use a **native** implementation for the target platform. 
+   If there is no implementation, it is a cross-platform version.
+* `in0k_bringToSecondPlane_LazLCL.pas` cross-platform version
+   * The functionality of the procedure `bringToSecond` 
+     achieved by sequential call `Wnd_B.bringToFront; Wnd_A.bringToFront`
+   * `+` should work on ALL platforms
+   * `-` periodically noticeable characteristic flickering of the interface 
+* `*` `in0k_bringToSecondPlane_WinAPI.pas` widgetset **LCLWin32**, **LCLWin64**
+* `*` `in0k_bringToSecondPlane_lclGtk2.pas` widgetset **LCLgtk2**
+* `*` `in0k_bringToSecondPlane_lclGtk3.pas` widgetset **LCLgtk3**
 
-The project `demo/uiDemoTEST.lpi` is an example of using this "library".
+###### notes
+
+ * `*` - no interface flicker.
+
+[1]: http://wiki.lazarus.freepascal.org/Unit
+[2]: http://wiki.lazarus.freepascal.org
+[3]: http://wiki.lazarus.freepascal.org/LCL
+[s1]: http://wiki.lazarus.freepascal.org/IDE_Window:_Project_Options#Other_Unit_Files 

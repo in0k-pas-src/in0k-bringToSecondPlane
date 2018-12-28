@@ -48,9 +48,9 @@
    * Функционал процедуры `bringToSecond` достигается последовательным вызовом `Wnd_B.bringToFront; Wnd_A.bringToFront `.
    * `+` должно работать на ВСЕХ платформах. 
    * `-` периодически заметно характерное мерцание интерфейса. 
-* `*` `in0k_bringToSecondPlane_WinAPI.pas` платформа `LCLWin32`, `LCLWin64`. 
-* `*` `in0k_bringToSecondPlane_lclGtk2.pas` платформа `LCLgtk2`.
-* `*` `in0k_bringToSecondPlane_lclGtk3.pas` платформа `LCLgtk3`.
+* `*` `in0k_bringToSecondPlane_WinAPI.pas` платформа **LCLWin32**, **LCLWin64** 
+* `*` `in0k_bringToSecondPlane_lclGtk2.pas` платформа **LCLgtk2**
+* `*` `in0k_bringToSecondPlane_lclGtk3.pas` платформа **LCLgtk3**
 
 ###### примечания
 
