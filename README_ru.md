@@ -1,3 +1,31 @@
+![Alt text](https://g.gravizo.com/source/custom_activity?https%3A%2F%2Fgithub.com%2Fin0k-pas-src%2Fin0k-bringToSecondPlane%2Fmaster%2FREADME_ru.md)
+<details> 
+<summary></summary>
+custom_activity
+@startuml;
+%28*%29 --> if "Some Test" then;
+  -->[true] "activity 1";
+  if "" then;
+    -> "activity 3" as a3;
+  else;
+    if "Other test" then;
+      -left-> "activity 5";
+    else;
+      --> "activity 6";
+    endif;
+  endif;
+else;
+  ->[false] "activity 2";
+endif;
+a3 --> if "last test" then;
+  --> "activity 7";
+else;
+  -> "activity 8";
+endif;
+@enduml
+custom_activity
+</details>
+
 # in0k-bringToSecondPlane
 Библиотека [модулей][1] для использования в [Lazarus][2] [LCL][3].
 
@@ -60,3 +88,10 @@
 [2]: http://wiki.lazarus.freepascal.org
 [3]: http://wiki.lazarus.freepascal.org/LCL
 [s1]: http://wiki.lazarus.freepascal.org/IDE_Window:_Project_Options#Other_Unit_Files 
+
+
+
+
+
+
+
