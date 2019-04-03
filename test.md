@@ -1,26 +1,29 @@
-![Alt text](https://g.gravizo.com/source/custom_activity?https%3A%2F%2Fraw.githubusercontent.com%2FTLmaK0%2Fgravizo%2Fmaster%2FREADME.md)
-
-
-
-
-![Alt text](https://g.gravizo.com/svg?
-  digraph G {
-    aize ="4,4";
-    main [shape=box];
-    main -> parse [weight=8];
-    parse -> execute;
-    main -> init [style=dotted];
-    main -> cleanup;
-    execute -> { make_string; printf}
-    init -> make_string;
-    edge [color=red];
-    main -> printf [style=bold,label="100 times"];
-    make_string [label="make a string"];
-    node [shape=box,style=filled,color=".7 .3 1.0"];
-    execute -> compare;
-  }
-)
-
-
+![Alt text](https://g.gravizo.com/source/custom_activity1123?https://github.com/in0k-pas-src/in0k-bringToSecondPlane/blob/master/test.md)
+<details> 
+<summary></summary>
+custom_activity1123  
+@startuml;
+%28*%29 --> if "Sosadf asdf asdf asdf asdf me Test" then;
+  -->[true] "activity 1";
+  if "asda sda sd" then;
+    -> "activity 3" as a3;
+  else;
+    if "Other test" then;
+      -left-> "activity 5";
+    else;
+      --> "activity 6";
+    endif;
+  endif;
+else;
+  ->[false] "activity 2";
+endif;
+a3 --> if "last test" then;
+  --> "activity 7";
+else;
+  -> "activity 8";
+endif;
+@enduml
+custom_activity1123
+</details>
 
 dsfgdsfg
