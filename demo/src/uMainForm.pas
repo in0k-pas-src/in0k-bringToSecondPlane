@@ -7,13 +7,13 @@
 interface
 
 uses
-  in0k_bringToSecondPlane_LazLCL,
-  in0k_bringToSecondPlane,
+  bringToSecond,
+  bringToSecond_LCL,
   //----
-  uForm1, uForm2,
+  uForm1, uForm2, uForm3,
   //----
   LCLType, LCLIntf,
-  SysUtils, Forms, StdCtrls, ExtCtrls;
+  SysUtils, Forms, StdCtrls, ExtCtrls, Classes;
 
 type
 
@@ -23,10 +23,12 @@ type
     Button1: TButton;
     Button2: TButton;
     Button3: TButton;
+    Button4: TButton;
     Memo1: TMemo;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   public
@@ -45,19 +47,25 @@ implementation
 
 procedure TMainForm.Button1Click(Sender: TObject);
 begin
-    in0k_bringToSecondPlane_LazLCL.bringToSecondPlane(Form1);
+    bringToSecond_LCL.bringToSecond(Form1);
     info_Write;
 end;
 
 procedure TMainForm.Button2Click(Sender: TObject);
 begin
-    bringToSecond(Form2);
+    bringToSecond.bringToSecondppp(Form2);
     info_Write;
 end;
 
 procedure TMainForm.Button3Click(Sender: TObject);
 begin
     info_Write;
+end;
+
+procedure TMainForm.Button4Click(Sender: TObject);
+begin
+  //    bringToSecond.bringToSecondppp(Form3);
+
 end;
 
 procedure TMainForm.FormActivate(Sender: TObject);

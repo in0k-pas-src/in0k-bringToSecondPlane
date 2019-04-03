@@ -7,14 +7,22 @@
       <MainUnit Value="0"/>
       <Title Value="uiDemoTEST"/>
       <ResourceType Value="res"/>
-      <UseXPManifest Value="True"/>
+      <XPManifest>
+        <ExecutionLevel Value="requireAdministrator"/>
+      </XPManifest>
     </General>
     <i18n>
       <EnableI18N LFM="False"/>
     </i18n>
+    <MacroValues Count="1">
+      <Macro1 Name="LCLWidgetType" Value="gtk2"/>
+    </MacroValues>
     <BuildModes Count="2">
       <Item1 Name="Debug" Default="True"/>
       <Item2 Name="Release">
+        <MacroValues Count="1">
+          <Macro1 Name="LCLWidgetType" Value="gtk2"/>
+        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
@@ -44,6 +52,9 @@
           </Linking>
         </CompilerOptions>
       </Item2>
+      <SharedMatrixOptions Count="1">
+        <Item1 ID="460657728880" Modes="Release,Debug" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
+      </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -65,15 +76,15 @@
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="../in0k_bringToSecondPlane.pas"/>
+        <Filename Value="../bringToSecond.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit1>
       <Unit2>
-        <Filename Value="../in0k_bringToSecondPlane_LazLCL.pas"/>
+        <Filename Value="../bringToSecond_LCL.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="../in0k_SzOW.pas"/>
+        <Filename Value="../b2sp_SzOW.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit3>
       <Unit4>
@@ -105,7 +116,7 @@
         <ResourceBaseClass Value="Form"/>
       </Unit7>
       <Unit8>
-        <Filename Value="../in0k_SzOF.pas"/>
+        <Filename Value="../b2sp_SzOF.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit8>
     </Units>
@@ -133,19 +144,14 @@
         <StackChecks Value="True"/>
       </Checks>
       <VerifyObjMethodCallValidity Value="True"/>
+      <TargetOS Value="win32"/>
     </CodeGeneration>
     <Linking>
       <Debugging>
-        <DebugInfoType Value="dsDwarf2Set"/>
         <UseHeaptrc Value="True"/>
         <TrashVariables Value="True"/>
         <UseExternalDbgSyms Value="True"/>
       </Debugging>
-      <Options>
-        <Win32>
-          <GraphicApplication Value="True"/>
-        </Win32>
-      </Options>
     </Linking>
   </CompilerOptions>
   <Debugging>

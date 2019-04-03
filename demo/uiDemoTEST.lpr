@@ -9,8 +9,6 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms, uMainForm, uForm1, uForm2, uForm3;
 
-{$R *.res}
-
 begin
   RequireDerivedFormResource:=True;
   Application.Initialize;
