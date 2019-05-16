@@ -24,6 +24,8 @@ unit bringToSecond_GtkX;
     {$endIF}
    {%endregion}
    {%in0k(c)Tested [20181222 Lazarus:1.6.4 FPC:3.0.2 i386-linux-gtk2]}
+   {%in0k(c)Tested 20190421 x86_64-linux-gtk2 Lazarus:2.0.2.0 FPC:3.0.4}
+   {%in0k(c)Tested 20190516 x86_64-linux-gtk3 (alpha) Lazarus:2.0.2.0 FPC:3.0.4}
 //----------------------------------------------------------------------------//
 
 interface
@@ -72,8 +74,7 @@ begin {$ifOPT D+}
 end;
 
 //------------------------------------------------------------------------------
-{$else} // Это ЗАЛЕТ, где-то я просчитался :-(
-        // Сообщим об ошибке, поклянчим фидБек
+{$else} // что-то пошло не так :-( // Сообщим об ошибке, поклянчим фидБек
     {$error Target platform not supported!             }
     {$note  Function `_wndHNDL_GET_` NOT define.       }
     {$note  Please, report this error to the developer.}
@@ -148,65 +149,6 @@ begin {$ifOPT D+} Assert(Assigned(form),'`form`: must be defined'); {$endIf}
     if SzOW_SecondPlane_possible(form)
     then _bringToSecond_(SzOW_get_topForm_inZOrder,form);
 end;
-
-(*
-
-// она ЕСТЬ, но НЕ объявлена :-)
-procedure gdk_window_restack(window:PGdkWindow; sibling:PGdkWindow; above:gboolean); cdecl; external gdklib;
-
-{$IF DEFINED(LCLgtk2)}
-function b2sp_gtk_GdkWindow_GET(const form:TCustomForm):pGdkWindow; {$ifOPT D-}inline;{$endIf}
-begin {$ifOPT D+}
-      Assert(Assigned(form),'`form`: must be defined');
-      Assert(form.HandleAllocated,'`form.Handle`: must be defined');
-      {$endIf}
-      result:={%H-}PGtkWidget(form.Handle)^.window;
-end;
-{$endIf}
-
-// расположить `Формы` в порядке `zIndex` (.. source -> wndNXT .. DeskTop).
-procedure _set_zIndex_in_Order_(const topWND,second:TCustomForm);
-var pTopWND:PGdkWindow;
-    pSecond:PGdkWindow;
-begin {$ifOPT D+}
-      Assert(Assigned(topWND),'`topWND`: must be defined');
-      Assert(Assigned(second),'`second`: must be defined');
-      {$endIf}
-    // получаем `Gtk` указатели
-    pTopWND:=b2sp_gtk_GdkWindow_GET(topWND);
-    pSecond:=b2sp_gtk_GdkWindow_GET(second);
-    {$IF DEFINED(MSWINDOWS)} {$warning `я ХУЙ знает почему у меня это в win10 приходится делать так`}
-    gdk_window_restack(pTopWND,pSecond,false);
-    gdk_window_restack(pSecond,pTopWND,false);
-    {$else}
-    gdk_window_restack(pSecond,pTopWND,false);
-    {$endIf}
-end;
-
-// переместить форму на "Второй План"
-// @prm fTop форма, которая в настоящий момент находится на переднем плане
-// @prm form перемещаемая форма
-procedure _bringToSecond_(const fTop,form:TCustomForm); {$ifOPT D-}inline;{$endIf}
-var list:tListFT2F;
-begin {$ifOPT D+}
-      Assert(Assigned(form),'`form`: must be defined');
-      Assert(Assigned(fTop),'`fTop`: must be defined');
-      Assert(SzOW_form_is_TOP_inZOrder(fTop),'`fTop`: must be TOP form in the app');
-      {$endIf}
-    // Особенности см. `b2sp_SzOF.#1`
-    list:=SzOF_listFT2F_make (form);
-   _set_zIndex_in_Order_(fTop,form);
-    SzOF_listFT2F_zFIX  (fTop,form,list);
-    SzOF_listFT2F_free  (list);
-end;
-
-// Переместить форму на "Второй План"
-procedure bringToSecond(const form:TCustomForm);
-begin {$ifOPT D+} Assert(Assigned(form),'`form`: must be defined'); {$endIf}
-    if SzOW_SecondPlane_possible(form)
-    then _bringToSecond_(SzOW_get_topForm_inZOrder,form);
-end;
-*)
 
 end.
 

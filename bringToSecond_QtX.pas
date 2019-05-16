@@ -32,7 +32,7 @@ unit bringToSecond_QtX;
     {$note '-----------------------------------------------------------------------------'}
     {$endIF}
    {%endregion}
-   {%in0k(c)Tested Qt5 [Lazarus:2.0.0  FPC:3.0.4 i386-win32-win32/win64}
+   {%in0k(c)Tested 20190421 x86_64-linux-qt5 Lazarus:2.0.2.0 FPC:3.0.4 'а вот не моргает оно ¯\_(ツ)_/¯'}
 //----------------------------------------------------------------------------//
 
 interface
@@ -55,6 +55,8 @@ uses
 procedure bringToSecond(const form:TCustomForm); {$ifOPT D-}inline;{$endIf}
 
 implementation
+
+//uses bringToSecond_X11;
 
 // разрешить\блокировать обновлене окна
 procedure _qt5_setUpdatesEnbld_(const form:TCustomForm; const value:boolean); {$ifOpt D-}inline;{$endIf}
@@ -83,12 +85,15 @@ begin {$ifOPT D+}
       Assert(Assigned(second),'`second`: must be defined');
       Assert(Assigned(TQtWidget(second.Handle)),'`TQtWidget(second.Handle)`: is NULL');
       {$endIf}
-   _qt5_setUpdatesEnbld_(topWND,false);   // запрещаем обновлять
-   _qt5_setUpdatesEnbld_(second,false);   //
-    TQtWidget(second.Handle).raiseWidget; // перемещение
-    TQtWidget(topWND.Handle).raiseWidget; //
-   _qt5_setUpdatesEnbld_(second,true);    // разрешаем обновлять
-   _qt5_setUpdatesEnbld_(topWND,true);    //
+  // _qt5_setUpdatesEnbld_(topWND,false);   // запрещаем обновлять
+  // _qt5_setUpdatesEnbld_(second,false);   //
+  //  TQtWidget(second.Handle).raiseWidget; // перемещение
+  //  TQtWidget(topWND.Handle).raiseWidget; //
+  // _qt5_setUpdatesEnbld_(second,true);    // разрешаем обновлять
+  // _qt5_setUpdatesEnbld_(topWND,true);    //
+        // ;
+    QWidget_stackUnder(TQtWidget(second.Handle).Widget,TQtWidget(topWND.Handle).Widget)
+
 end;
 
 

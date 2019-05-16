@@ -20,9 +20,6 @@
     <BuildModes Count="2">
       <Item1 Name="Debug" Default="True"/>
       <Item2 Name="Release">
-        <MacroValues Count="1">
-          <Macro1 Name="LCLWidgetType" Value="gtk2"/>
-        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
@@ -53,16 +50,23 @@
         </CompilerOptions>
       </Item2>
       <SharedMatrixOptions Count="1">
-        <Item1 ID="460657728880" Modes="Release,Debug" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
+        <Item1 ID="054968842459" Modes="Debug" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
     </PublishOptions>
     <RunParams>
+      <local>
+        <CommandLineParams Value="--sync"/>
+      </local>
       <FormatVersion Value="2"/>
       <Modes Count="1">
-        <Mode0 Name="default"/>
+        <Mode0 Name="default">
+          <local>
+            <CommandLineParams Value="--sync"/>
+          </local>
+        </Mode0>
       </Modes>
     </RunParams>
     <RequiredPackages Count="1">
@@ -70,7 +74,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="9">
+    <Units Count="8">
       <Unit0>
         <Filename Value="uiDemoTEST.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -95,30 +99,21 @@
         <ResourceBaseClass Value="Form"/>
       </Unit4>
       <Unit5>
-        <Filename Value="src/uForm1.pas"/>
+        <Filename Value="src/uTestForm.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="Form1"/>
+        <ComponentName Value="testForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit5>
       <Unit6>
-        <Filename Value="src/uForm2.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="Form2"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit6>
-      <Unit7>
-        <Filename Value="src/uForm3.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="Form3"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit7>
-      <Unit8>
         <Filename Value="../b2sp_SzOF.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit8>
+      </Unit6>
+      <Unit7>
+        <Filename Value="../bringtosecond_x11.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="bringToSecond_X11"/>
+      </Unit7>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -144,7 +139,6 @@
         <StackChecks Value="True"/>
       </Checks>
       <VerifyObjMethodCallValidity Value="True"/>
-      <TargetOS Value="win32"/>
     </CodeGeneration>
     <Linking>
       <Debugging>

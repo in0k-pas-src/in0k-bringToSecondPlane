@@ -19,7 +19,7 @@ unit bringToSecond;
 {%region ---               Выбираем РЕАЛИзацИЮ                 --- /fold }
 {$unDef b2sp_implementation_selected}
 //--- #0. по ЦЕЛЕВОЙ платформе
-{{$If DEFINED(MSWINDOWS)}
+{$If DEFINED(MSWINDOWS)}
   {$IF DEFINED(LCLWin32) or DEFINED(LCLWin64)}
     {$define b2sp_implementation_WIN}{$define b2sp_implementation_selected}
   {$elseIf DEFINED(LCLqt) or DEFINED(LCLqt5)}
@@ -27,7 +27,7 @@ unit bringToSecond;
   {$elseIf DEFINED(LCLgtk2)}
     {$define b2sp_implementation_WIN}{$define b2sp_implementation_selected}
   {$endIF}
-{$endIF}}
+{$endIF}
 //--- #1. по ЦЕЛЕВЫМ виджитам
 {$ifNdef b2sp_implementation_selected} // видимо нативно через ВИДЖИТЫ
   {$if DEFINED(LCLqt) or DEFINED(LCLqt5)}
@@ -50,13 +50,41 @@ uses
   Forms,
   {$if     defined(b2sp_implementation_WIN) } bringToSecond_WIN
   {$elseif defined(b2sp_implementation_QtX) } bringToSecond_QtX
-  {$elseif defined(b2sp_implementation_GtkX)} bringToSecond_GtkX
+  {$elseif defined(b2sp_implementation_GtkX)}
+      // воровано `gtk2defines.inc`
+      {off $define UseX}
+      {$ifdef Unix}
+        // on darwin we try to use native gtk
+        {$ifdef Darwin}
+          {$ifdef UseX} // it can be overridden
+            {$define HasX}
+          {$endif}
+        {$else}
+          {$define HasX}
+        {$endif}
+      {$endif}
+      //
+      {$if defined(HasX)}
+         {$define b2sp_implementation_X11}
+         bringToSecond_X11
+      {$else}
+         bringToSecond_GtkX
+      {$endif}
   {$else}{шансов НЕТ .. вариант по умолчанию} bringToSecond_LCL
     {$note --------------------------------------------------------------------}
     {$note  in0k-bringToSecondPlane: The basic cross-platform version is used. }
     {$note  Can work slowly and with flicker.                                  }
     {$note --------------------------------------------------------------------}
   {$endIF};
+
+{$ifOpt D+}
+const cBringToSecondUNIT=
+{$if     defined(b2sp_implementation_WIN) } 'bringToSecond_WIN'
+{$elseif defined(b2sp_implementation_X11) } 'bringToSecond_X11'
+{$elseif defined(b2sp_implementation_QtX) } 'bringToSecond_QtX'
+{$elseif defined(b2sp_implementation_GtkX)} 'bringToSecond_GtkX'
+{$else}'bringToSecond_LCL'{$endIF};
+{$endIF}
 
 procedure bringToSecondppp(const form:TCustomForm);
 
@@ -66,6 +94,8 @@ procedure bringToSecondppp(const form:TCustomForm);
 begin {$ifOPT D+} Assert(Assigned(form),'`form`: must be defined'); {$endIf}
   {$if defined(b2sp_implementation_WIN)}
     bringToSecond_WIN.bringToSecond(form);
+  {$elseif defined(b2sp_implementation_X11)}
+    bringToSecond_X11.bringToSecond(form);
   {$elseif defined(b2sp_implementation_QtX)}
     bringToSecond_QtX.bringToSecond(form);
   {$elseif defined(b2sp_implementation_GtkX)}
