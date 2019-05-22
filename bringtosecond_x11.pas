@@ -1,6 +1,27 @@
 unit bringToSecond_X11;
 
-{$mode objfpc}{$H+}
+//--- Схема работы функции на примере ------------------------ [ in0k (c) 2018 ]
+//
+//     Z-Index
+//
+//     0    Wnd00              +-> Wnd_A                        Wnd_A
+//     1    Wnd01              |   Wnd00                    +-> Wnd_B
+//     2     ...               |   Wnd01                    |   Wnd00
+//     3     ...               |    ...                     |   Wnd01
+//    ...    ...               |    ...                     |
+//     N    Wnd_A.bringToFront-^    ...                     |
+//     M     ...                   bringToSecond(Wnd_B)-----^
+//    ...    ...                    ...
+//    ...............................................................
+//    DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop
+//
+//----------------------------------------------------------------------------//
+// "НАТИвНаЯ" реализация, НЕ моргает (если НЕ из под Windows).
+//----------------------------------------------------------------------------//
+{% in0k(c)Tested 20190522 x86_64-linux-gtk2 Lazarus:2.0.2.0 FPC:3.0.4         %}
+{% in0k(c)Tested 20190523 x86_64-linux-qt5 Lazarus:2.0.2.0 FPC:3.0.4          %}
+{% in0k(c)Tested 20190523 x86_64-linux-qt Lazarus:2.0.2.0 FPC:3.0.4           %}
+//----------------------------------------------------------------------------//
 
 interface
 
@@ -8,30 +29,51 @@ uses
   b2sp_SzOW,
   b2sp_SzOF,
   Forms,
-  ctypes,
-  x, xlib;
-
-
-function _get_screenNumber_(const display:PDisplay; const window:TWindow):cuint;
-function _wndZOrder_SET_(const display:PDisplay; const target,wndNXT:TWindow):boolean; {$ifOPT D-}inline;{$endIf}
+  ctypes, x, xlib;
 
 procedure bringToSecond(const form:TCustomForm); {$ifOPT D-}inline;{$endIf}
 
 implementation
 
 {%region --- #0. x11 functions ----------------------------------- /fold }
-//
-// получить Handle окна в НАТИВНЫХ понятиях WinAPI
 
-{$IF DEFINED(LCLWin32) or DEFINED(LCLWin64)} //----------------------------- WIN
+{$IF DEFINED(LCLqt) or DEFINED(LCLqt5)} //---------------------------------- QtX
 
-{$elseIF DEFINED(LCLqt) or DEFINED(LCLqt5)} //------------------------------ QtX
+uses
+  {$if DEFINED(LCLqt5)}
+  qt5,
+  {$elseif DEFINED(LCLqt)}
+  qt4,
+  {$endIf}
+  qtwidgets;
+
+//получить указател на ДИсплей
+function _get_Display_(const {%H-}window:TWindow):PDisplay;
+begin
+    result:=QX11Info_display();
+    //result:=GDK_WINDOW_XDISPLAY(window);
+end;
+
+function _get_Window_(const form:TCustomForm):TWindow;
+begin {$ifOPT D+}
+      Assert(Assigned(form),'`form`: must be defined');
+      Assert(form.HandleAllocated,'`form.Handle`: not Allocated');
+      Assert(Assigned(TQtWidget(form.Handle).Widget),'`Widget`: must be defined');
+      {$endIf}
+    result:=QWidget_winId(TQtWidget(form.Handle).Widget);
+end;
+
+{$elseIF DEFINED(LCLgtk3)} //---------------------------------------------- Gtk2
+
+uses gtk3int,LazGdk3;
+
+function gdk_display_get_default: PGdkDisplay; cdecl; external;
 
 {$elseIF DEFINED(LCLgtk2)} //---------------------------------------------- Gtk2
 uses gtk2,gdk2x;
 
 //получить указател на ДИсплей
-function _get_Display_(const window:TWindow):PDisplay;
+function _get_Display_(const {%H-}window:TWindow):PDisplay;
 begin
     result:=gdk_display;
     //result:=GDK_WINDOW_XDISPLAY(window);
@@ -42,7 +84,7 @@ begin {$ifOPT D+}
       Assert(Assigned(form),'`form`: must be defined');
       Assert(form.HandleAllocated,'`form.Handle`: not Allocated');
       {$endIf}
-    result:=GDK_WINDOW_XID(PGtkWidget(form.Handle)^.window)
+    result:=GDK_WINDOW_XID({%H-}PGtkWidget(form.Handle)^.window);
 end;
 
 //------------------------------------------------------------------------------

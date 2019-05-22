@@ -49,21 +49,57 @@ interface
 uses
   Forms,
   {$if     defined(b2sp_implementation_WIN) } bringToSecond_WIN
-  {$elseif defined(b2sp_implementation_QtX) } bringToSecond_QtX
-  {$elseif defined(b2sp_implementation_GtkX)}
-      // воровано `gtk2defines.inc`
-      {off $define UseX}
-      {$ifdef Unix}
-        // on darwin we try to use native gtk
-        {$ifdef Darwin}
-          {$ifdef UseX} // it can be overridden
-            {$define HasX}
-          {$endif}
-        {$else}
-          {$define HasX}
-        {$endif}
+  {$elseif defined(b2sp_implementation_QtX) }
+      // теперь надо определить, можно ли использовать X11 НАПРЯМУЮ
+      {$if DEFINED(LCLqt5)}
+        {%region --- воровано `qt56.pas` /fold }
+            {$IFDEF MSWINDOWS}
+            {$ELSE}
+              {$IFDEF DARWIN}
+                {$LINKFRAMEWORK Qt5Pas}
+              {$ELSE}
+                  {$IF DEFINED(LINUX) or DEFINED(FREEBSD) or DEFINED(NETBSD)}
+                  {$DEFINE BINUX}
+                {$ENDIF}
+              {$ENDIF}
+            {$ENDIF}
+        {%endRegion}
+      {$elseif DEFINED(LCLqt)}
+        {%region --- воровано `qt45.pas` /fold }
+            {$IFNDEF QTOPIA}
+              {$IF DEFINED(LINUX) or DEFINED(FREEBSD) or DEFINED(NETBSD)}
+                {$DEFINE BINUX}
+              {$ENDIF}
+            {$ENDIF}
+        {%endRegion}
       {$endif}
-      //
+      //-- выбор реализаии
+      {$if defined(BINUX)}
+         {$define b2sp_implementation_X11}
+         bringToSecond_X11
+      {$else}
+         bringToSecond_QtX
+      {$endif}
+  {$elseif defined(b2sp_implementation_GtkX)}
+      // теперь надо определить, можно ли использовать X11 НАПРЯМУЮ
+      {$if DEFINED(LCLgtk3)}
+           // буду копать по необходимости
+      {$elseif DEFINED(LCLgtk2)}
+           {%region --- воровано `gtk2defines.inc` /fold }
+                {off $define UseX}
+                {$ifdef Unix}
+                  // on darwin we try to use native gtk
+                  {$ifdef Darwin}
+                    {$ifdef UseX} // it can be overridden
+                      {$define HasX}
+                    {$endif}
+                  {$else}
+                    {$define HasX}
+                  {$endif}
+                {$endif}
+           {%endRegion}
+      {$endif}
+      //-- выбор реализаии
       {$if defined(HasX)}
          {$define b2sp_implementation_X11}
          bringToSecond_X11

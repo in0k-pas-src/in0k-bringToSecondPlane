@@ -32,7 +32,8 @@ unit bringToSecond_QtX;
     {$note '-----------------------------------------------------------------------------'}
     {$endIF}
    {%endregion}
-   {%in0k(c)Tested 20190421 x86_64-linux-qt5 Lazarus:2.0.2.0 FPC:3.0.4 'а вот не моргает оно ¯\_(ツ)_/¯'}
+   {%in0k(c)Tested 20190421 x86_64-linux-qt5 Lazarus:2.0.2.0 FPC:3.0.4}
+   {%in0k(c)Tested 20190522 x86_64-linux-qt Lazarus:2.0.2.0 FPC:3.0.4}
 //----------------------------------------------------------------------------//
 
 interface
@@ -40,26 +41,25 @@ interface
 uses
   b2sp_SzOW,
   b2sp_SzOF,
-  Forms,
-  //-------
-  {$if defined(LCLqt)}
-  qt4,
-  {$elseIf defined(LCLqt5)}
-  qt5,
-  {$else}
-  {$error 'main `WidgetSet` unit NOT define'}
-  {$endIf}
-  //-------
-  qtwidgets;
+  Forms;
 
 procedure bringToSecond(const form:TCustomForm); {$ifOPT D-}inline;{$endIf}
 
 implementation
 
-//uses bringToSecond_X11;
+uses //-------
+     {$if defined(LCLqt)}
+     qt4,
+     {$elseIf defined(LCLqt5)}
+     qt5,
+     {$else}
+     {$error 'main `WidgetSet` unit NOT define'}
+     {$endIf}
+     //-------
+     qtwidgets;
 
 // разрешить\блокировать обновлене окна
-procedure _qt5_setUpdatesEnbld_(const form:TCustomForm; const value:boolean); {$ifOpt D-}inline;{$endIf}
+procedure _qtX_setUpdatesEnbld_(const form:TCustomForm; const value:boolean); {$ifOpt D-}inline;{$endIf}
 begin {$ifOPT D+}
       Assert(Assigned(form),'`form`: must be defined');
       Assert(Assigned(TQtWidget(form.Handle)),'`TQtWidget(form.Handle)`: is NULL');
@@ -69,11 +69,11 @@ begin {$ifOPT D+}
 end;
 
 // разрешить\блокировать обновлене СПИСКА окон
-procedure _qt5_setUpdatesEnbld_(const list:tListFT2F; const value:boolean); {$ifOpt D-}inline;{$endIf}
+procedure _qtX_setUpdatesEnbld_(const list:tListFT2F; const value:boolean); {$ifOpt D-}inline;{$endIf}
 var i:integer;
 begin
     for i:=0 to Length(list)-1 do begin
-       _qt5_setUpdatesEnbld_(list[i],value)
+       _qtX_setUpdatesEnbld_(list[i],value)
     end;
 end;
 
@@ -85,17 +85,13 @@ begin {$ifOPT D+}
       Assert(Assigned(second),'`second`: must be defined');
       Assert(Assigned(TQtWidget(second.Handle)),'`TQtWidget(second.Handle)`: is NULL');
       {$endIf}
-  // _qt5_setUpdatesEnbld_(topWND,false);   // запрещаем обновлять
-  // _qt5_setUpdatesEnbld_(second,false);   //
-  //  TQtWidget(second.Handle).raiseWidget; // перемещение
-  //  TQtWidget(topWND.Handle).raiseWidget; //
-  // _qt5_setUpdatesEnbld_(second,true);    // разрешаем обновлять
-  // _qt5_setUpdatesEnbld_(topWND,true);    //
-        // ;
-    QWidget_stackUnder(TQtWidget(second.Handle).Widget,TQtWidget(topWND.Handle).Widget)
-
+   _qtX_setUpdatesEnbld_(topWND,false);   // запрещаем обновлять
+   _qtX_setUpdatesEnbld_(second,false);   //
+    TQtWidget(second.Handle).raiseWidget; // перемещение
+    TQtWidget(topWND.Handle).raiseWidget; //
+   _qtX_setUpdatesEnbld_(second,true);    // разрешаем обновлять
+   _qtX_setUpdatesEnbld_(topWND,true);    //
 end;
-
 
 // переместить форму на "Второй План"
 // @prm fTop форма, которая в настоящий момент находится на переднем плане
@@ -109,9 +105,9 @@ begin {$ifOPT D+}
       {$endIf}
     // Особенности см. `b2sp_SzOF.#1`
     list:=SzOF_listFT2F_make (form);
-   _qt5_setUpdatesEnbld_(list,FALSE); // запрещаем обновлять окна
+   _qtX_setUpdatesEnbld_(list,FALSE); // запрещаем обновлять окна
    _set_zIndex_in_Order_(fTop,form);  // перемещаем
-   _qt5_setUpdatesEnbld_(list,true);  // разрешаем обновлять окна
+   _qtX_setUpdatesEnbld_(list,true);  // разрешаем обновлять окна
     SzOF_listFT2F_zFIX  (fTop,form,list);
     SzOF_listFT2F_free  (list);
 end;
@@ -121,9 +117,6 @@ procedure bringToSecond(const form:TCustomForm);
 begin {$ifOPT D+} Assert(Assigned(form),'`form`: must be defined'); {$endIf}
     if SzOW_SecondPlane_possible(form)
     then _bringToSecond_(SzOW_get_topForm_inZOrder,form);
-    {$IF DEFINED(LCLqt))}
-    {$warning 'NOT tested in `LCLqt`!'}
-    {$endIF}
 end;
 
 end.
