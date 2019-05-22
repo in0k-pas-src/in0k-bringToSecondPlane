@@ -55,15 +55,12 @@ object MainForm: TMainForm
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 4
-    Height = 47
+    Left = 0
+    Height = 51
     Top = 74
-    Width = 307
+    Width = 313
     Anchors = [akTop, akLeft, akRight, akBottom]
-    BorderSpacing.Left = 4
     BorderSpacing.Top = 4
-    BorderSpacing.Right = 2
-    BorderSpacing.Bottom = 4
     Lines.Strings = (
       'Memo1'
     )

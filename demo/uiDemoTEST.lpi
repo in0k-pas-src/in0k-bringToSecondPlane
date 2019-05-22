@@ -15,7 +15,7 @@
       <EnableI18N LFM="False"/>
     </i18n>
     <MacroValues Count="1">
-      <Macro1 Name="LCLWidgetType" Value="gtk2"/>
+      <Macro1 Name="LCLWidgetType" Value="gtk3"/>
     </MacroValues>
     <BuildModes Count="2">
       <Item1 Name="Debug" Default="True"/>
@@ -50,7 +50,7 @@
         </CompilerOptions>
       </Item2>
       <SharedMatrixOptions Count="1">
-        <Item1 ID="054968842459" Modes="Debug" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
+        <Item1 ID="559991363898" Modes="Debug" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>

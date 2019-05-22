@@ -64,6 +64,34 @@ var
 
 implementation
 
+
+//------------------------------------------------------------------------------
+
+const
+ _cTXT_Lazarus_='Lazarus';
+ _cTXT_FPC_    ='FPC';
+ _cTXT_Target_ ='target';
+ _cDLMTR_      =':';
+ _cSPACE_      =' ';
+
+
+function _aboutString_:string;
+begin
+    result:='';
+    //---
+    result:=FormatDateTime('YYYYmmdd',now);
+    result:=result+' ';
+    //--- target
+    result:=result+lowerCase({$I %FPCTARGETCPU%})+'-'+lowerCase({$I %FPCTARGETOS%})+'-'+LCLPlatformDisplayNames[GetDefaultLCLWidgetType];
+    result:=result+' ';
+    //--- lazarus
+    result:=result+_cTXT_Lazarus_+':'+laz_version;
+    result:=result+' ';
+    //--- FPC
+    result:=result+_cTXT_FPC_+':'+{$I %FPCVERSION%};
+end;
+
+
 {$R *.lfm}
 //uses x, xlib , gdk2,gtk2,glib2,gdk2x;
 //, qt5,qtwidgets;
@@ -159,7 +187,11 @@ begin
     //
     with _CTRLs_get_widest_lCaptn_ do
     self.Constraints.MinWidth:=Left+width;
-    self.Constraints.MinHeight:=memo1.Top+self.Canvas.TextHeight('W')*6;
+    self.Constraints.MinHeight:=memo1.Top+self.Canvas.TextHeight('W')*5;
+    //
+    memo1.Constraints.MinWidth:=Canvas.TextWidth('W'+_aboutString_);
+    if self.Constraints.MinWidth<memo1.Constraints.MinWidth
+    then self.Constraints.MinWidth:=memo1.Constraints.MinWidth;
 end;
 
 
@@ -378,32 +410,6 @@ begin
     Form3:=tTestForm.Create(Application);
 end;
 
-//------------------------------------------------------------------------------
-
-const
- _cTXT_Lazarus_='Lazarus';
- _cTXT_FPC_    ='FPC';
- _cTXT_Target_ ='target';
- _cDLMTR_      =':';
- _cSPACE_      =' ';
-
-
-function _aboutString_:string;
-begin
-    result:='';
-    //---
-    result:=FormatDateTime('YYYYmmdd',now);
-    result:=result+' ';
-    //--- target
-    result:=result+lowerCase({$I %FPCTARGETCPU%})+'-'+lowerCase({$I %FPCTARGETOS%})+'-'+LCLPlatformDisplayNames[GetDefaultLCLWidgetType];
-    result:=result+' ';
-    //--- lazarus
-    result:=result+_cTXT_Lazarus_+':'+laz_version;
-    result:=result+' ';
-    //--- FPC
-    result:=result+_cTXT_FPC_+':'+{$I %FPCVERSION%};
-end;
-
 procedure TMainForm.info_Write;
 var i:integer;
     f:TCustomForm;
@@ -431,7 +437,7 @@ begin
         form.Height:=Screen.PrimaryMonitor.Height div 4;
         //---
         delta:=GetSystemMetrics(SM_CYCAPTION)*indx;
-        if delta=0 then delta:=self.Canvas.GetTextHeight('H')*indx;
+        if delta=0 then delta:=self.Canvas.GetTextHeight('H')*indx; //< это чисто для LCLgtk3
         //---
         form.Left:=Screen.PrimaryMonitor.Left+((Screen.PrimaryMonitor.Width -form.Width)  div 2)+delta;
         form.Top :=Screen.PrimaryMonitor.Top +((Screen.PrimaryMonitor.Height-form.Height) div 2)-delta;
