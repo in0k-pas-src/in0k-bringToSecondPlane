@@ -122,11 +122,11 @@ const cBringToSecondUNIT=
 {$else}'bringToSecond_LCL'{$endIF};
 {$endIF}
 
-procedure bringToSecondppp(const form:TCustomForm);
+procedure bringToSecond(const form:TCustomForm);
 
 implementation
 
-procedure bringToSecondppp(const form:TCustomForm);
+procedure bringToSecond(const form:TCustomForm);
 begin {$ifOPT D+} Assert(Assigned(form),'`form`: must be defined'); {$endIf}
   {$if defined(b2sp_implementation_WIN)}
     bringToSecond_WIN.bringToSecond(form);

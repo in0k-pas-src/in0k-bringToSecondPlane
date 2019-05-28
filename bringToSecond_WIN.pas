@@ -21,6 +21,7 @@ unit bringToSecond_WIN;
     {$ifNdef MSWINDOWS} // проверка совместимости
     {$ErrOr 'WRONG `OS Target`! Unit must be used only with `MSWINDOWS`!'}
     {$endIF}
+{% in0k(c)Tested 20190528 i386-win32-win32/win64 Lazarus:2.0.0.4 FPC:3.0.4    %}
 //----------------------------------------------------------------------------//
 
 interface
