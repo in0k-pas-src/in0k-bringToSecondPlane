@@ -21,7 +21,6 @@ unit bringToSecond_WIN;
     {$ifNdef MSWINDOWS} // проверка совместимости
     {$ErrOr 'WRONG `OS Target`! Unit must be used only with `MSWINDOWS`!'}
     {$endIF}
-{% in0k(c)Tested 20190528 i386-win32-win32/win64 Lazarus:2.0.0.4 FPC:3.0.4    %}
 //----------------------------------------------------------------------------//
 
 interface
@@ -40,7 +39,7 @@ implementation
 // получить Handle окна в НАТИВНЫХ понятиях WinAPI
 
 {$IF DEFINED(LCLWin32) or DEFINED(LCLWin64)} //----------------------------- WIN
-{done -oin0k -cTEST : WIN 20190403 Lazarus 2.0.0 r60307 FPC 3.0.4 i386-win32-win32/win64}
+{% TESTed in0k 20190530 i386-win32-win32/win64 Lazarus:2.0.0.4 FPC:3.0.4      %}
 
 function _wndHNDL_GET_(const form:TCustomForm):HWND; {$ifOPT D-}inline;{$endIf}
 begin {$ifOPT D+}
@@ -50,15 +49,23 @@ begin {$ifOPT D+}
     result:=form.Handle;
 end;
 
-{$elseIF DEFINED(LCLqt) or DEFINED(LCLqt5)} //------------------------------ QtX
-{TODO -cTEST : Qt4 }
-{done -oin0k -cTEST : Qt5 20190403 Lazarus 2.0.0 r60307 FPC 3.0.4 i386-win32-win32/win64}
+{$elseIF DEFINED(LCLqt)} //------------------------------------------------- Qt4
+uses qt4,qtwidgets;
+{$warning 'NOT tested in `LCLqt`!'}
+function _wndHNDL_GET_(const form:TCustomForm):HWND; {$ifOPT D-}inline;{$endIf}
+begin {$ifOPT D+}
+    Assert(Assigned(form),'`form`: must be defined');
+    Assert(form.HandleAllocated,'`form.Handle`: not Allocated');
+    Assert(Assigned(TQtWidget(form.Handle).Widget),'`TQtWidget(form.Handle).Widget`: NIL');
+    {$endIf}
+  result:=QWidget_winID(TQtWidget(form.Handle).Widget);
+  {$ifOPT D+} Assert(result<>0,'`win HWND`: NOT found'); {$endIf}
+  //---
+end;
 
-  uses
-  {$if defined(LCLqt)}      qt4,
-  {$elseIf defined(LCLqt5)} qt5,
-  {$else} {$error 'main `WidgetSet` unit NOT define'} {$endIf}
-  qtwidgets;
+{$elseIF DEFINED(LCLqt) or DEFINED(LCLqt5)} //------------------------------ Qt5
+{% TESTed in0k 0190530 i386-win32-qt5 Lazarus:2.0.0.4 FPC:3.0.4               %}
+uses qt5, qtwidgets;
 
 function _wndHNDL_GET_(const form:TCustomForm):HWND; {$ifOPT D-}inline;{$endIf}
 begin {$ifOPT D+}
@@ -68,13 +75,13 @@ begin {$ifOPT D+}
       {$endIf}
     result:=QWidget_winID(TQtWidget(form.Handle).Widget);
     {$ifOPT D+} Assert(result<>0,'`win HWND`: NOT found'); {$endIf}
-    //---
-    {$IF DEFINED(LCLqt)}{$warning 'NOT tested in `LCLqt`!'}{$endIF}
 end;
 
 {$elseIF DEFINED(LCLgtk2)} //---------------------------------------------- Gtk2
-{done -oin0k -cTEST : Gtk2 20190403 Lazarus 2.0.0 r60307 FPC 3.0.4 i386-win32-win32/win64}
-uses gtk2, gdk2, Gtk2Proc;
+{% TESTed in0k 20190530 i386-win32-gtk2 Lazarus:2.0.0.4 FPC:3.0.4             %}
+
+  uses
+  gtk2, gdk2, Gtk2Proc;
 
 // она есть, просто не описана ...
 function gdk_win32_drawable_get_handle(D:PGdkDrawable):HWND; cdecl; external gdklib;

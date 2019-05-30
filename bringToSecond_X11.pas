@@ -18,10 +18,6 @@ unit bringToSecond_X11;
 //----------------------------------------------------------------------------//
 // "НАТИвНаЯ" реализация, НЕ моргает (если НЕ из под Windows).
 //----------------------------------------------------------------------------//
-{% in0k(c)Tested 20190522 x86_64-linux-gtk2 Lazarus:2.0.2.0 FPC:3.0.4         %}
-{% in0k(c)Tested 20190523 x86_64-linux-qt5 Lazarus:2.0.2.0 FPC:3.0.4          %}
-{% in0k(c)Tested 20190523 x86_64-linux-qt Lazarus:2.0.2.0 FPC:3.0.4           %}
-//----------------------------------------------------------------------------//
 
 interface
 
@@ -38,7 +34,8 @@ implementation
 {%region --- #0. x11 functions ----------------------------------- /fold }
 
 {$IF DEFINED(LCLqt) or DEFINED(LCLqt5)} //---------------------------------- QtX
-
+{% TESTed in0k 20190530 x86_64-linux-qt Lazarus:2.0.2.0 FPC:3.0.4             %}
+{% TESTed in0k 20190530 x86_64-linux-qt5 Lazarus:2.0.2.0 FPC:3.0.4            %}
 uses
   {$if DEFINED(LCLqt5)}
   qt5,
@@ -63,20 +60,20 @@ begin {$ifOPT D+}
     result:=QWidget_winId(TQtWidget(form.Handle).Widget);
 end;
 
-{$elseIF DEFINED(LCLgtk3)} //---------------------------------------------- Gtk2
+{$elseIF DEFINED(LCLgtk3)} //---------------------------------------------- Gtk3
 
 uses gtk3int,LazGdk3;
 
 function gdk_display_get_default: PGdkDisplay; cdecl; external;
 
 {$elseIF DEFINED(LCLgtk2)} //---------------------------------------------- Gtk2
+{% TESTed in0k 20190530 x86_64-linux-gtk2 Lazarus:2.0.2.0 FPC:3.0.4           %}
 uses gtk2,gdk2x;
 
 //получить указател на ДИсплей
 function _get_Display_(const {%H-}window:TWindow):PDisplay;
-begin
+begin                                                                 s
     result:=gdk_display;
-    //result:=GDK_WINDOW_XDISPLAY(window);
 end;
 
 function _get_Window_(const form:TCustomForm):TWindow;

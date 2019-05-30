@@ -1,94 +1,98 @@
-![Alt text](https://g.gravizo.com/source/custom_activity?https%3A%2F%2Fgithub.com%2Fin0k-pas-src%2Fin0k-bringToSecondPlane%2Fmaster%2FREADME_ru.md)
-<details> 
-<summary></summary>
-custom_activity
-@startuml;
-%28*%29 --> if "Some Test" then;
-  -->[true] "activity 1";
-  if "" then;
-    -> "activity 3" as a3;
-  else;
-    if "Other test" then;
-      -left-> "activity 5";
-    else;
-      --> "activity 6";
-    endif;
-  endif;
-else;
-  ->[false] "activity 2";
-endif;
-a3 --> if "last test" then;
-  --> "activity 7";
-else;
-  -> "activity 8";
-endif;
-@enduml
-custom_activity
-</details>
 
 # in0k-bringToSecondPlane
+
 Библиотека [модулей][1] для использования в [Lazarus][2] [LCL][3].
 
+
+
 ## Назначение
-Переместить окно (`tForm`) во ВТОРУЮ позицию списка Z-Order окон приложения. 
 
+Переместить окно (`tForm`) на ВТОРУЮ позицию списка Z-Order окон приложения.
 
-     Z-Index                                                       
-                                                                   
+    Z-Index
+
     T0P   Wnd00              +-> Wnd_A                        Wnd_A
      1    Wnd01              |   Wnd00                  +---> Wnd_B
      2     ...               |   Wnd01                  |     Wnd00
      3     ...               |    ...                   |     Wnd01
-    ...    ...               |    ...                   |          
-     N    Wnd_A.bringToFront-^    ...                   |          
-     M     ...                   bringToSecond(Wnd_B)---^          
-    ...    ...                    ...                              
+    ...    ...               |    ...                   |
+     N    Wnd_A.bringToFront-^    ...                   |
+     M     ...                   bringToSecond(Wnd_B)---^
+    ...    ...                    ...
     ...............................................................
     DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop
 
 
-## Использование
 
-* Готовый пример в проекте `demo/uiDemoTEST.lpi`
+## Состав
 
-* Пример использования в коде
+* `bringToSecond.pas` **обобщенный** вариант. По возможности использует
+   **нативную** реализацию для целевой платформы.
+   Если реализации нет, то кроссплатформенный вариант.
+* `bringToSecond_LCL.pas`  кроссплатформенный вариант.
+   * Функционал процедуры `bringToSecond` достигается
+     последовательным вызовом `Wnd_B.bringToFront; Wnd_A.bringToFront`
+   * `+` должно работать на ВСЕХ платформах.
+   * `-` периодически заметно характерное мерцание интерфейса
+* `bringToSecond_WIN.pas` используютя функции **WinAPI**
+* `bringToSecond_X11.pas` используютя функции **xlib**
+* `bringToSecond_GtkX.pas` используютя методы **Gtk**
+* `bringToSecond_QtX.pas` используютя методы **Qt**
+
+
+
+## Таблица совместимости
+
+   |              |win32/64|x11/xlib|  GTK2  |  GTK3  |   Qt4  |   Qt5  |
+   |:-------------|:------:|:------:|:------:|:------:|:------:|:------:|
+   | `.._LCL.pas` |  [::]  |  [::]  |  [::]  |  [::]  |  [::]  |  [::]  |
+   | `.._WIN.pas` |  [+]   |        |  [+]   |        |  [#]   |  [+]   |
+   | `.._X11.pas` |        |        |  [+]   |        |  [+]   |  [+]   |
+   | `.._GtkX.pas`|  [~1]  |        |  [+]   |  [+]   |        |        |
+   | `.._QtX.pas` |  [~2]  |        |        |        |  [~3]  |  [~3]  |
+
+- `[::]` - должно работать ВЕЗДЕ, где присутствут Lazarus
+- `[+] ` - реализовано, тестировано
+- `[#] ` - реализовано, НЕ тестировано
+- `[~1]` - используемая функция `gdk_window_restack` НЕКОРРЕКТНО
+           работает под `WINDOWS`,
+           реализация аналогична `LCL` но методами `GTK` ( [+] GTK2; [#] GTK3 ).
+- `[~2]` - в связи с ОТСУТСТВИЕМ необходимых методов,
+           реализация аналогична `LCL` но методами `Qt` ( [#] Qt4; [+] Qt5 ).
+- `[~3]` - в связи с ОТСУТСТВИЕМ необходимых методов,
+           реализация аналогична `LCL` но методами `Qt` ( [+] Qt4; [+] Qt5 ).
+
+
+
+## Применение
+
+1. Клонируйте или копируйте содержимое репозитория в папку `%SomeDIR%`.
+2. В параметрах проекта укажите `%SomeDIR%` в [путях поиска][s1].
+3. Использование в коде:
 
      ```pascal    
         uses ...
-             in0k_bringToSecondPlane,
+             bringToSecond,
              ...;
         
         ..
         bringToSecond(myForm);
         ..
-     ```    
-        
-
-## Установка
-1. Скопируйте или клонируйте содержимое репозитория к себе в папку `%SomeDIR%`
-2. В параметрах проекта укажите папку `%SomeDIR%` в [путях поиска][s1]
+     ```
 
 
-## Состав
-* `in0k_bringToSecondPlane.pas` **обобщенный** вариант. По возможности использует
-   **нативную** реализацию для целевой платформы. Если реализации нет, то кроссплатформенный вариант.
-* `in0k_bringToSecondPlane_LazLCL.pas`  кроссплатформенный вариант.
-   * Функционал процедуры `bringToSecond` достигается последовательным вызовом `Wnd_B.bringToFront; Wnd_A.bringToFront `.
-   * `+` должно работать на ВСЕХ платформах. 
-   * `-` периодически заметно характерное мерцание интерфейса. 
-* `*` `in0k_bringToSecondPlane_WinAPI.pas` платформа **LCLWin32**, **LCLWin64** 
-* `*` `in0k_bringToSecondPlane_lclGtk2.pas` платформа **LCLgtk2**
-* `*` `in0k_bringToSecondPlane_lclGtk3.pas` платформа **LCLgtk3**
 
-###### примечания
+## ДЕМО
 
- * `*` - мерцание ОТСУТСТВУЕТ.
+Готовый для исследования пример смотрите в репрозитории [проекта][D].
 
-[1]: http://wiki.lazarus.freepascal.org/Unit
-[2]: http://wiki.lazarus.freepascal.org
-[3]: http://wiki.lazarus.freepascal.org/LCL
+
+
+[1]:  http://wiki.lazarus.freepascal.org/Unit
+[2]:  http://wiki.lazarus.freepascal.org
+[3]:  http://wiki.lazarus.freepascal.org/LCL
 [s1]: http://wiki.lazarus.freepascal.org/IDE_Window:_Project_Options#Other_Unit_Files 
-
+[D]:  https://github.com/in0k-pas-prj/in0kPRJ-bringToSecondPlane
 
 
 

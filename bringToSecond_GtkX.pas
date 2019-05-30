@@ -23,9 +23,14 @@ unit bringToSecond_GtkX;
     {$ErrOr 'WRONG `WidgetSet`! Unit must be used only with `LCLgtk2` or `LCLgtk3`!'}
     {$endIF}
    {%endregion}
-   {%in0k(c)Tested [20181222 Lazarus:1.6.4 FPC:3.0.2 i386-linux-gtk2]}
-   {%in0k(c)Tested 20190421 x86_64-linux-gtk2 Lazarus:2.0.2.0 FPC:3.0.4}
-   {%in0k(c)Tested 20190516 x86_64-linux-gtk3 (alpha) Lazarus:2.0.2.0 FPC:3.0.4}
+   {%region --- подсказки про СИСТЕМНЫЕ библиотеки ------------ /fold}
+    {$If DEFINED(MSWINDOWS)}
+    {$note ------------------------------------------------------}
+    {$note   Under "Windows" system it doesn't work very well.   }
+    {$note   For best results, try use `bringToSecond_WIN.pas`.  }
+    {$note ------------------------------------------------------}
+    {$endIF}
+   {%endregion}
 //----------------------------------------------------------------------------//
 
 interface
@@ -45,7 +50,8 @@ implementation
 // получить Handle окна в НАТИВНЫХ понятиях конкретного GTK
 
 {$IF DEFINED(LCLgtk2)} //----------------------------------------------- LCLgtk2
-
+{% TESTed in0k 20190530 i386-win32-gtk2 Lazarus:2.0.0.4 FPC:3.0.4             %}
+{% TESTed in0k 20190530 x86_64-linux-gtk2 Lazarus:2.0.2.0 FPC:3.0.4           %}
 uses gdk2,gtk2,glib2;
 
 // она ЕСТЬ, но НЕ объявлена :-)
@@ -61,7 +67,7 @@ begin {$ifOPT D+}
 end;
 
 {$elseIF DEFINED(LCLgtk3)} //------------------------------------------- LCLgtk3
-
+{% TESTed in0k 20190530 x86_64-linux-gtk3 (alpha) Lazarus:2.0.2.0 FPC:3.0.4   %}
 uses gtk3widgets, LazGdk3;
 
 function _wndHNDL_GET_(const form:TCustomForm):PGdkWindow; {$ifOPT D-}inline;{$endIf}
@@ -77,7 +83,7 @@ end;
 {$else} // что-то пошло не так :-( // Сообщим об ошибке, поклянчим фидБек
     {$error Target platform not supported!             }
     {$note  Function `_wndHNDL_GET_` NOT define.       }
-    {$note  Please, report this error to the developer.}
+    {$note  Please, report this error to the developer.}     s
 {$endIF}
 
 {%endregion -------------------------------------------------------------------}
@@ -102,7 +108,7 @@ begin {$ifOPT D+}
         {$warning  I Мust use a double call.                        }
         {$warning  Which is equivalent to bringToSecond_LCL.        }
         {$warning --------------------------------------------------}
-        {$note     For best results, try use `bringToSecond_WIN`    }
+        {$warning  For best results, try use `bringToSecond_WIN.pas`}
         {$warning --------------------------------------------------}
         gdk_window_restack(target,wndNXT,false);
         gdk_window_restack(wndNXT,target,false);

@@ -27,13 +27,12 @@ unit bringToSecond_QtX;
    {%endregion}
    {%region --- подсказки про СИСТЕМНЫЕ библиотеки ------------ /fold}
     {$If DEFINED(MSWINDOWS)}
-    {$note '-----------------------------------------------------------------------------'}
-    {$note 'under "Windows" system try to use module with system calls, it will be better'}
-    {$note '-----------------------------------------------------------------------------'}
+    {$note ------------------------------------------------------}
+    {$note   Under "Windows" system it doesn't work very well.   }
+    {$note   For best results, try use `bringToSecond_WIN.pas`.  }
+    {$note ------------------------------------------------------}
     {$endIF}
    {%endregion}
-   {%in0k(c)Tested 20190421 x86_64-linux-qt5 Lazarus:2.0.2.0 FPC:3.0.4}
-   {%in0k(c)Tested 20190522 x86_64-linux-qt Lazarus:2.0.2.0 FPC:3.0.4}
 //----------------------------------------------------------------------------//
 
 interface
@@ -46,7 +45,9 @@ uses
 procedure bringToSecond(const form:TCustomForm); {$ifOPT D-}inline;{$endIf}
 
 implementation
-
+{% TESTed in0k 20190530 i386-win32-qt5 Lazarus:2.0.0.4 FPC:3.0.4              %}
+{% TESTed in0k 20190530 x86_64-linux-qt Lazarus:2.0.2.0 FPC:3.0.4             %}
+{% TESTed in0k 20190530 x86_64-linux-qt5 Lazarus:2.0.2.0 FPC:3.0.4            %}
 uses //-------
      {$if defined(LCLqt)}
      qt4,
