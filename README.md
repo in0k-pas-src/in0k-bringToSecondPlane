@@ -71,7 +71,7 @@ in the Z-Order list of application windows.
 
 ## Usage
 
-1. Copy or clone the contents of the repository to your folder `%SomeDIR%`.
+1. Copy or clone the contents of the [repository][R] to your folder `%SomeDIR%`.
 2. In the project settings, specify the folder `%SomeDIR%`
    in [other unit files][s1].
 3. Using in code:
@@ -98,5 +98,6 @@ For a ready-to-study example, see the [project][D].
 [2]:  https://www.lazarus-ide.org/
 [3]:  http://wiki.lazarus.freepascal.org/LCL
 [s1]: http://wiki.lazarus.freepascal.org/IDE_Window:_Project_Options#Other_Unit_Files
+[R]:  https://github.com/in0k-pas-src/in0kSRC-bringToSecondPlane
 [D]:  https://github.com/in0k-pas-prj/in0kPRJ-bringToSecondPlane
 

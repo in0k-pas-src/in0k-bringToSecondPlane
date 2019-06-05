@@ -67,7 +67,7 @@
 
 ## Применение
 
-1. Клонируйте или копируйте содержимое репозитория в папку `%SomeDIR%`.
+1. Клонируйте или копируйте содержимое [репозитория][R] в папку `%SomeDIR%`.
 2. В параметрах проекта укажите `%SomeDIR%` в [путях поиска][s1].
 3. Использование в коде:
 
@@ -93,6 +93,7 @@
 [2]:  https://www.lazarus-ide.org/
 [3]:  http://wiki.lazarus.freepascal.org/LCL
 [s1]: http://wiki.lazarus.freepascal.org/IDE_Window:_Project_Options#Other_Unit_Files 
+[R]:  https://github.com/in0k-pas-src/in0kSRC-bringToSecondPlane
 [D]:  https://github.com/in0k-pas-prj/in0kPRJ-bringToSecondPlane
 
 
