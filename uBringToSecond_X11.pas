@@ -1,4 +1,4 @@
-unit bringToSecond_X11;
+unit uBringToSecond_X11;
 
 //--- Схема работы функции на примере ------------------------ [ in0k (c) 2018 ]
 //
@@ -22,8 +22,8 @@ unit bringToSecond_X11;
 interface
 
 uses
-  b2sp_SzOW,
-  b2sp_SzOF,
+  uB2SP_SzOW,
+  uB2SP_SzOF,
   Forms,
   ctypes, x, xlib;
 
@@ -72,7 +72,7 @@ uses gtk2,gdk2x;
 
 //получить указател на ДИсплей
 function _get_Display_(const {%H-}window:TWindow):PDisplay;
-begin                                                                 s
+begin
     result:=gdk_display;
 end;
 

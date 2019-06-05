@@ -1,4 +1,4 @@
-unit bringToSecond_LCL;
+unit uBringToSecond_LCL;
 
 //--- Схема работы функции на примере -------------------------[ in0k (c) 2016 ]
 //
@@ -22,7 +22,7 @@ unit bringToSecond_LCL;
 interface
 
 uses
-  b2sp_SzOW,
+  uB2SP_SzOW,
   Forms;
 
 procedure bringToSecond(const form:TCustomForm); {$ifOPT D-}inline;{$endIf}

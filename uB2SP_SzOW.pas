@@ -1,4 +1,4 @@
-unit b2sp_SzOW;
+unit uB2SP_SzOW;
 
 //-------------------------------------------------------------[ in0k (c) 2018 ]
 // Screen Z-Order Work
@@ -10,9 +10,9 @@ interface
 
 uses Forms;
 
-function  SzOW_get_topForm_inZOrder:TCustomForm;                     {$ifOPT D-}inline;{$endIf}
-function  SzOW_form_is_TOP_inZOrder(const form:TCustomForm):boolean; {$ifOPT D-}inline;{$endIf}
-function  SzOW_SecondPlane_possible(const form:TCustomForm):boolean; {$ifOPT D-}inline;{$endIf}
+function SzOW_get_topForm_inZOrder:TCustomForm;                     {$ifOPT D-}inline;{$endIf}
+function SzOW_form_is_TOP_inZOrder(const form:TCustomForm):boolean; {$ifOPT D-}inline;{$endIf}
+function SzOW_SecondPlane_possible(const form:TCustomForm):boolean; {$ifOPT D-}inline;{$endIf}
 
 implementation
 

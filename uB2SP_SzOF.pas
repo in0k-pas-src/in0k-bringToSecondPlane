@@ -1,4 +1,4 @@
-unit b2sp_SzOF;
+unit uB2SP_SzOF;
 
 //-------------------------------------------------------------[ in0k (c) 2018 ]
 // Screen Z-Order Fix
@@ -37,14 +37,14 @@ unit b2sp_SzOF;
 
 interface
 
-uses {$ifOPT D+}b2sp_SzOW,{$endIf}
+uses {$ifOPT D+}uB2SP_SzOW,{$endIf}
   Forms;
 
 type tListFT2F=array of TCustomForm;
 
-function  SzOF_listFT2F_make(const form:TCustomForm):tListFT2F;                {$ifOPT D-}inline;{$endIf}
+function  SzOF_listFT2F_make(const form:TCustomForm):tListFT2F;                  {$ifOPT D-}inline;{$endIf}
 procedure SzOF_listFT2F_zFIX(const fTop,form:TCustomForm; const list:tListFT2F); {$ifOPT D-}inline;{$endIf}
-procedure SzOF_listFT2F_free(var list:tListFT2F);                              {$ifOPT D-}inline;{$endIf}
+procedure SzOF_listFT2F_free(var list:tListFT2F);                                {$ifOPT D-}inline;{$endIf}
 
 implementation
 uses LCLVersion;
@@ -106,6 +106,9 @@ uses LCLVersion;
 
 // 2.0.x.x
 {$if (lcl_major=2)and(lcl_minor=0)}
+    {$if (lcl_release=2)or(lcl_patch=0)}
+        {$define FSzOL_implementation_verified}
+    {$endIf}
     {$if (lcl_release=0)or(lcl_patch=4)}
         {$define FSzOL_implementation_verified}
     {$endIf}

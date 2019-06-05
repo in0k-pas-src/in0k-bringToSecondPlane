@@ -1,4 +1,4 @@
-unit bringToSecond_GtkX;
+unit uBringToSecond_GtkX;
 
 //--- Схема работы функции на примере ------------------------ [ in0k (c) 2018 ]
 //
@@ -36,8 +36,8 @@ unit bringToSecond_GtkX;
 interface
 
 uses
-  b2sp_SzOW,
-  b2sp_SzOF,
+  uB2SP_SzOW,
+  uB2SP_SzOF,
   Forms;
 
 procedure bringToSecond(const form:TCustomForm); {$ifOPT D-}inline;{$endIf}

@@ -1,4 +1,4 @@
-unit bringToSecond;
+unit uBringToSecond;
 
 //--- Схема работы функции на примере ------------------------ [ in0k (c) 2018 ]
 //
@@ -48,7 +48,7 @@ interface
 
 uses
   Forms,
-  {$if     defined(b2sp_implementation_WIN) } bringToSecond_WIN
+  {$if     defined(b2sp_implementation_WIN) } uBringToSecond_WIN
   {$elseif defined(b2sp_implementation_QtX) }
       // теперь надо определить, можно ли использовать X11 НАПРЯМУЮ
       {$if DEFINED(LCLqt5)}
@@ -76,9 +76,9 @@ uses
       //-- выбор реализаии
       {$if defined(BINUX)}
          {$define b2sp_implementation_X11}
-         bringToSecond_X11
+         uBringToSecond_X11
       {$else}
-         bringToSecond_QtX
+         uBringToSecond_QtX
       {$endif}
   {$elseif defined(b2sp_implementation_GtkX)}
       // теперь надо определить, можно ли использовать X11 НАПРЯМУЮ
@@ -102,9 +102,9 @@ uses
       //-- выбор реализаии
       {$if defined(HasX)}
          {$define b2sp_implementation_X11}
-         bringToSecond_X11
+         uBringToSecond_X11
       {$else}
-         bringToSecond_GtkX
+         uBringToSecond_GtkX
       {$endif}
   {$else}{шансов НЕТ .. вариант по умолчанию} bringToSecond_LCL
     {$note --------------------------------------------------------------------}
@@ -115,11 +115,11 @@ uses
 
 {$ifOpt D+}
 const cBringToSecondUNIT=
-{$if     defined(b2sp_implementation_WIN) } 'bringToSecond_WIN'
-{$elseif defined(b2sp_implementation_X11) } 'bringToSecond_X11'
-{$elseif defined(b2sp_implementation_QtX) } 'bringToSecond_QtX'
-{$elseif defined(b2sp_implementation_GtkX)} 'bringToSecond_GtkX'
-{$else}'bringToSecond_LCL'{$endIF};
+{$if     defined(b2sp_implementation_WIN) } 'uBringToSecond_WIN'
+{$elseif defined(b2sp_implementation_X11) } 'uBringToSecond_X11'
+{$elseif defined(b2sp_implementation_QtX) } 'uBringToSecond_QtX'
+{$elseif defined(b2sp_implementation_GtkX)} 'uBringToSecond_GtkX'
+{$else}'uBringToSecond_LCL'{$endIF};
 {$endIF}
 
 procedure bringToSecond(const form:TCustomForm);
@@ -129,15 +129,15 @@ implementation
 procedure bringToSecond(const form:TCustomForm);
 begin {$ifOPT D+} Assert(Assigned(form),'`form`: must be defined'); {$endIf}
   {$if defined(b2sp_implementation_WIN)}
-    bringToSecond_WIN.bringToSecond(form);
+    uBringToSecond_WIN.bringToSecond(form);
   {$elseif defined(b2sp_implementation_X11)}
-    bringToSecond_X11.bringToSecond(form);
+    uBringToSecond_X11.bringToSecond(form);
   {$elseif defined(b2sp_implementation_QtX)}
-    bringToSecond_QtX.bringToSecond(form);
+    uBringToSecond_QtX.bringToSecond(form);
   {$elseif defined(b2sp_implementation_GtkX)}
-    bringToSecond_GtkX.bringToSecond(form);
+    uBringToSecond_GtkX.bringToSecond(form);
   {$else}
-    bringToSecond_LCL.bringToSecond(form);
+    uBringToSecond_LCL.bringToSecond(form);
   {$endIF}
 end;
 

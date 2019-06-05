@@ -1,4 +1,4 @@
-unit bringToSecond_QtX;
+unit uBringToSecond_QtX;
 
 //--- Схема работы функции на примере ------------------------ [ in0k (c) 2018 ]
 //
@@ -38,8 +38,8 @@ unit bringToSecond_QtX;
 interface
 
 uses
-  b2sp_SzOW,
-  b2sp_SzOF,
+  uB2SP_SzOW,
+  uB2SP_SzOF,
   Forms;
 
 procedure bringToSecond(const form:TCustomForm); {$ifOPT D-}inline;{$endIf}

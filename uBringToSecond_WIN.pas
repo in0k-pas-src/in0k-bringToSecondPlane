@@ -1,4 +1,4 @@
-unit bringToSecond_WIN;
+unit uBringToSecond_WIN;
 
 //--- Схема работы функции на примере ------------------------ [ in0k (c) 2018 ]
 //
@@ -26,8 +26,8 @@ unit bringToSecond_WIN;
 interface
 
 uses
-  b2sp_SzOW,
-  b2sp_SzOF,
+  uB2SP_SzOW,
+  uB2SP_SzOF,
   Forms, Windows;
 
 procedure bringToSecond(const form:TCustomForm); {$ifOPT D-}inline;{$endIf}
