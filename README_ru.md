@@ -1,5 +1,5 @@
 
-# in0k-bringToSecondPlane
+# in0kSRC-bringToSecondPlane
 
 Библиотека [модулей][1] для использования в [Lazarus][2] [LCL][3].
 
@@ -7,7 +7,8 @@
 
 ## Назначение
 
-Переместить окно (`tForm`) на ВТОРУЮ позицию списка Z-Order окон приложения.
+Единственная функция `bringToSecond`:
+переместить окно (`tForm`) на ВТОРУЮ позицию списка Z-Order окон приложения.
 
     Z-Index
 
@@ -29,15 +30,15 @@
 * `bringToSecond.pas` **обобщенный** вариант. По возможности использует
    **нативную** реализацию для целевой платформы.
    Если реализации нет, то кроссплатформенный вариант.
-* `bringToSecond_LCL.pas`  кроссплатформенный вариант.
-   * Функционал процедуры `bringToSecond` достигается
-     последовательным вызовом `Wnd_B.bringToFront; Wnd_A.bringToFront`
-   * `+` должно работать на ВСЕХ платформах.
-   * `-` периодически заметно характерное мерцание интерфейса
-* `bringToSecond_WIN.pas` используютя функции **WinAPI**
-* `bringToSecond_X11.pas` используютя функции **xlib**
-* `bringToSecond_GtkX.pas` используютя методы **Gtk**
-* `bringToSecond_QtX.pas` используютя методы **Qt**
+* `bringToSecond_LCL.pas`  кроссплатформенный вариант
+   * Функционал процедуры `bringToSecond` достигается двумя
+     последовательными вызовами стандартного метода `tForm.bringToFront`.
+   * :shit: периодически заметно характерное мерцание интерфейса.
+     :+1:   должно работать на ВСЕХ платформах
+* `bringToSecond_WIN.pas`  используются функции **WinAPI**
+* `bringToSecond_X11.pas`  используются функции **xlib**
+* `bringToSecond_GtkX.pas` используются методы  **Gtk**
+* `bringToSecond_QtX.pas`  используются методы  **Qt**
 
 
 
@@ -51,7 +52,7 @@
    | `.._GtkX.pas`|  [~1]  |        |  [+]   |  [+]   |        |        |
    | `.._QtX.pas` |  [~2]  |        |        |        |  [~3]  |  [~3]  |
 
-- `[::]` - должно работать ВЕЗДЕ, где присутствут Lazarus
+- `[::]` - должно работать ВЕЗДЕ, где присутствует Lazarus
 - `[+] ` - реализовано, тестировано
 - `[#] ` - реализовано, НЕ тестировано
 - `[~1]` - используемая функция `gdk_window_restack` НЕКОРРЕКТНО
@@ -72,7 +73,7 @@
 
      ```pascal    
         uses ...
-             bringToSecond,
+             uBringToSecond,
              ...;
         
         ..
@@ -84,12 +85,12 @@
 
 ## ДЕМО
 
-Готовый для исследования пример смотрите в репрозитории [проекта][D].
+Готовый для исследования пример смотрите в репозитории [проекта][D].
 
 
 
 [1]:  http://wiki.lazarus.freepascal.org/Unit
-[2]:  http://wiki.lazarus.freepascal.org
+[2]:  https://www.lazarus-ide.org/
 [3]:  http://wiki.lazarus.freepascal.org/LCL
 [s1]: http://wiki.lazarus.freepascal.org/IDE_Window:_Project_Options#Other_Unit_Files 
 [D]:  https://github.com/in0k-pas-prj/in0kPRJ-bringToSecondPlane

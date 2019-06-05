@@ -1,11 +1,15 @@
-# in0k-bringToSecondPlane
+
+# in0kSRC-bringToSecondPlane
 
 [Units][1] for use in [Lazarus][2] [LCL][3].
 
-##
 
-Move the window (`tForm`) to the SECOND position in the Z-Order list of 
-application windows. 
+
+## Target
+
+Single function `bringToSecond`:
+move window (`tForm`) to the SECOND position
+in the Z-Order list of application windows.
 
 
      Z-Index                                                       
@@ -22,47 +26,77 @@ application windows.
     DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop
 
 
+
+## Structure
+
+* `in0k_bringToSecondPlane.pas` **generalized** version.
+   If possible, use a **native** implementation for the target platform.
+   If there is no implementation, it is a cross-platform version.
+* `in0k_bringToSecondPlane_LazLCL.pas` cross-platform version
+   * the functionality of the `bringToSecond` procedure
+     is achieved by two consecutive calls to the standard `tForm.bringToFront`
+   * :shit: periodically noticeable characteristic flickering of the interface.
+     :+1:   should work on ALL platforms
+* `bringToSecond_WIN.pas`  use functions **WinAPI**
+* `bringToSecond_X11.pas`  use functions **xlib**
+* `bringToSecond_GtkX.pas` use functions **Gtk**
+* `bringToSecond_QtX.pas`  use functions **Qt**
+
+
+
+## Compatibility
+
+   |              |win32/64|x11/xlib|  GTK2  |  GTK3  |   Qt4  |   Qt5  |
+   |:-------------|:------:|:------:|:------:|:------:|:------:|:------:|
+   | `.._LCL.pas` |  [::]  |  [::]  |  [::]  |  [::]  |  [::]  |  [::]  |
+   | `.._WIN.pas` |  [+]   |        |  [+]   |        |  [#]   |  [+]   |
+   | `.._X11.pas` |        |        |  [+]   |        |  [+]   |  [+]   |
+   | `.._GtkX.pas`|  [~1]  |        |  [+]   |  [+]   |        |        |
+   | `.._QtX.pas` |  [~2]  |        |        |        |  [~3]  |  [~3]  |
+
+- `[::]` - should work EVERYWHERE, where there is Lazarus
+- `[+] ` - implemented, tested
+- `[#] ` - implemented, NOT tested
+- `[~1]` - used `gdk_window_restack` INCORRECT works under `WINDOWS`,
+           the implementation is similar to `LCL`
+           but with `GTK` methods ( [+] GTK2; [#] GTK3 ).
+- `[~2]` - the necessary methods do not EXIST,
+           the implementation is similar to `LCL`
+           but with `Qt` methods ( [#] Qt4; [+] Qt5 ).
+- `[~3]` - the necessary methods do not EXIST,
+           the implementation is similar to `LCL`
+           but with `Qt` methods ( [+] Qt4; [+] Qt5 ).
+
+
+
 ## Usage
 
-* Ready example in the project `demo/uiDemoTEST.lpi`
-
-* Example of usage in code
+1. Copy or clone the contents of the repository to your folder `%SomeDIR%`.
+2. In the project settings, specify the folder `%SomeDIR%`
+   in [other unit files][s1].
+3. Using in code:
 
      ```pascal    
         uses ...
-             in0k_bringToSecondPlane,
+             uBringToSecond,
              ...;
         
         ..
         bringToSecond(myForm);
         ..
      ```    
-        
-
-## Installation
-1. Copy or clone the contents of the repository to your folder `%SomeDIR%`.
-2. In the project settings, specify the folder `%SomeDIR%` 
-   in [other unit files][s1].
 
 
-## Structure
-* `in0k_bringToSecondPlane.pas` **generalized** version. 
-   If possible, use a **native** implementation for the target platform. 
-   If there is no implementation, it is a cross-platform version.
-* `in0k_bringToSecondPlane_LazLCL.pas` cross-platform version
-   * The functionality of the procedure `bringToSecond` 
-     achieved by sequential call `Wnd_B.bringToFront; Wnd_A.bringToFront`
-   * `+` should work on ALL platforms
-   * `-` periodically noticeable characteristic flickering of the interface 
-* `*` `in0k_bringToSecondPlane_WinAPI.pas` widgetset **LCLWin32**, **LCLWin64**
-* `*` `in0k_bringToSecondPlane_lclGtk2.pas` widgetset **LCLgtk2**
-* `*` `in0k_bringToSecondPlane_lclGtk3.pas` widgetset **LCLgtk3**
 
-###### notes
+## DEMO
 
- * `*` - no interface flicker.
+For a ready-to-study example, see the [project][D].
 
-[1]: http://wiki.lazarus.freepascal.org/Unit
-[2]: http://wiki.lazarus.freepascal.org
-[3]: http://wiki.lazarus.freepascal.org/LCL
-[s1]: http://wiki.lazarus.freepascal.org/IDE_Window:_Project_Options#Other_Unit_Files 
+
+
+[1]:  http://wiki.lazarus.freepascal.org/Unit
+[2]:  https://www.lazarus-ide.org/
+[3]:  http://wiki.lazarus.freepascal.org/LCL
+[s1]: http://wiki.lazarus.freepascal.org/IDE_Window:_Project_Options#Other_Unit_Files
+[D]:  https://github.com/in0k-pas-prj/in0kPRJ-bringToSecondPlane
+
