@@ -1,36 +1,38 @@
 
-# in0kSRC-bringToSecondPlane
+in0k-bringToSecondPlane
+=======================
 
-Библиотека [модулей][1] для использования в [Lazarus][2] [LCL][3].
+Библиотека [модулей][L1] для использования в [Lazarus][L2] [LCL][L3].
 
 
-
-## Назначение
+Назначение
+----------
 
 Единственная функция `bringToSecond`:
 переместить окно (`tForm`) на ВТОРУЮ позицию списка Z-Order окон приложения.
 
-    Z-Index
+      Z-Index
 
-    T0P   Wnd00              +-> Wnd_A                        Wnd_A
-     1    Wnd01              |   Wnd00                  +---> Wnd_B
-     2     ...               |   Wnd01                  |     Wnd00
-     3     ...               |    ...                   |     Wnd01
-    ...    ...               |    ...                   |
-     N    Wnd_A.bringToFront-^    ...                   |
-     M     ...                   bringToSecond(Wnd_B)---^
-    ...    ...                    ...
-    ...............................................................
-    DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop
+      T0P   Wnd00              +-> Wnd_A                        Wnd_A
+       1    Wnd01              |   Wnd00                  +---> Wnd_B
+       2     ...               |   Wnd01                  |     Wnd00
+       3     ...               |    ...                   |     Wnd01
+      ...    ...               |    ...                   |
+       N    Wnd_A.bringToFront-^    ...                   |
+       M     ...                   bringToSecond(Wnd_B)---^
+      ...    ...                    ...
+      ...............................................................
+      DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop
 
 
 
-## Состав
+Состав
+------
 
-* `bringToSecond.pas` **обобщенный** вариант. По возможности использует
-   **нативную** реализацию для целевой платформы.
+* `bringToSecond.pas` **обобщенный** вариант.
+   По возможности использует **нативную** реализацию для целевой платформы.
    Если реализации нет, то кроссплатформенный вариант.
-* `bringToSecond_LCL.pas`  кроссплатформенный вариант
+* `bringToSecond_LCL.pas` кроссплатформенный вариант
    * Функционал процедуры `bringToSecond` достигается двумя
      последовательными вызовами стандартного метода `tForm.bringToFront`.
    * :shit: периодически заметно характерное мерцание интерфейса.
@@ -42,7 +44,8 @@
 
 
 
-## Таблица совместимости
+Таблица совместимости
+---------------------
 
    |              |win32/64|x11/xlib|  GTK2  |  GTK3  |   Qt4  |   Qt5  |
    |:-------------|:------:|:------:|:------:|:------:|:------:|:------:|
@@ -65,10 +68,12 @@
 
 
 
-## Применение
+Применение
+----------
 
-1. Клонируйте или копируйте содержимое [репозитория][R] в папку `%SomeDIR%`.
-2. В параметрах проекта укажите `%SomeDIR%` в [путях поиска][s1].
+1. Поместите исходники библиотеки в папку `%SomeDIR%`
+   (клонируйте репозиторий или [скачайте][Z] последнюю версию).
+2. В параметрах проекта укажите `%SomeDIR%` в [путях поиска][L4].
 3. Использование в коде:
 
      ```pascal    
@@ -83,18 +88,19 @@
 
 
 
-## ДЕМО
+ДЕМО
+====
 
-Готовый для исследования пример смотрите в репозитории [проекта][D].
+Готовый для исследования пример смотрите в [репозитории][D] демо проекта.
 
 
 
-[1]:  http://wiki.lazarus.freepascal.org/Unit
-[2]:  https://www.lazarus-ide.org/
-[3]:  http://wiki.lazarus.freepascal.org/LCL
-[s1]: http://wiki.lazarus.freepascal.org/IDE_Window:_Project_Options#Other_Unit_Files 
-[R]:  https://github.com/in0k-pas-src/in0kSRC-bringToSecondPlane
-[D]:  https://github.com/in0k-pas-prj/in0kPRJ-bringToSecondPlane
+[L1]: http://wiki.lazarus.freepascal.org/Unit
+[L2]: https://www.lazarus-ide.org/
+[L3]: http://wiki.lazarus.freepascal.org/LCL
+[L4]: http://wiki.lazarus.freepascal.org/IDE_Window:_Project_Options#Other_Unit_Files
+[R]:  https://github.com/in0k-pas-src/in0k-bringToSecondPlane_src/releases
+[D]:  https://github.com/in0k-pas-prj/in0k-bringToSecondPlane
 
 
 

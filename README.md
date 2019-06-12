@@ -1,33 +1,35 @@
 
-# in0kSRC-bringToSecondPlane
+in0k-bringToSecondPlane
+=======================
 
-[Units][1] for use in [Lazarus][2] [LCL][3].
+[Units][L1] for use in [Lazarus][L2] [LCL][L3].
 
 
-
-## Target
+Target
+------
 
 Single function `bringToSecond`:
 move window (`tForm`) to the SECOND position
 in the Z-Order list of application windows.
 
 
-     Z-Index                                                       
-                                                                   
-    T0P   Wnd00              +-> Wnd_A                        Wnd_A
-     1    Wnd01              |   Wnd00                  +---> Wnd_B
-     2     ...               |   Wnd01                  |     Wnd00
-     3     ...               |    ...                   |     Wnd01
-    ...    ...               |    ...                   |          
-     N    Wnd_A.bringToFront-^    ...                   |          
-     M     ...                   bringToSecond(Wnd_B)---^          
-    ...    ...                    ...                              
-    ...............................................................
-    DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop
+       Z-Index
+
+      T0P   Wnd00              +-> Wnd_A                        Wnd_A
+       1    Wnd01              |   Wnd00                  +---> Wnd_B
+       2     ...               |   Wnd01                  |     Wnd00
+       3     ...               |    ...                   |     Wnd01
+      ...    ...               |    ...                   |
+       N    Wnd_A.bringToFront-^    ...                   |
+       M     ...                   bringToSecond(Wnd_B)---^
+      ...    ...                    ...
+      ...............................................................
+      DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop DeskTop
 
 
 
-## Structure
+Structure
+---------
 
 * `in0k_bringToSecondPlane.pas` **generalized** version.
    If possible, use a **native** implementation for the target platform.
@@ -44,7 +46,8 @@ in the Z-Order list of application windows.
 
 
 
-## Compatibility
+Compatibility
+-------------
 
    |              |win32/64|x11/xlib|  GTK2  |  GTK3  |   Qt4  |   Qt5  |
    |:-------------|:------:|:------:|:------:|:------:|:------:|:------:|
@@ -69,11 +72,13 @@ in the Z-Order list of application windows.
 
 
 
-## Usage
+Usage
+-----
 
-1. Copy or clone the contents of the [repository][R] to your folder `%SomeDIR%`.
+1. Place the source code of the library into the folder `%SomeDIR%`
+   (clone the repository or [download][R] the latest version).
 2. In the project settings, specify the folder `%SomeDIR%`
-   in [other unit files][s1].
+   in [other unit files][L4].
 3. Using in code:
 
      ```pascal    
@@ -88,16 +93,16 @@ in the Z-Order list of application windows.
 
 
 
-## DEMO
+DEMO
+====
 
-For a ready-to-study example, see the [project][D].
+For a ready-to-study example, see in [repository][D] of demo project.
 
 
-
-[1]:  http://wiki.lazarus.freepascal.org/Unit
-[2]:  https://www.lazarus-ide.org/
-[3]:  http://wiki.lazarus.freepascal.org/LCL
-[s1]: http://wiki.lazarus.freepascal.org/IDE_Window:_Project_Options#Other_Unit_Files
-[R]:  https://github.com/in0k-pas-src/in0kSRC-bringToSecondPlane
-[D]:  https://github.com/in0k-pas-prj/in0kPRJ-bringToSecondPlane
+[L1]:  http://wiki.lazarus.freepascal.org/Unit
+[L2]:  https://www.lazarus-ide.org/
+[L3]:  http://wiki.lazarus.freepascal.org/LCL
+[L4]: http://wiki.lazarus.freepascal.org/IDE_Window:_Project_Options#Other_Unit_Files
+[R]:  https://github.com/in0k-pas-src/in0k-bringToSecondPlane_src/releases
+[D]:  https://github.com/in0k-pas-prj/in0k-bringToSecondPlane
 
